@@ -1,24 +1,55 @@
 {
-  "name": "book-club",
+  "name": "amplify-next-boilerplate",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "sandbox": "amplify sandbox",
+    "prepare": "husky install"
   },
   "dependencies": {
+    "@aws-amplify/adapter-nextjs": "^1.0.9",
+    "@aws-amplify/ui-react": "^6.0.7",
+    "@aws-amplify/ui-react-storage": "^3.0.8",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.2",
+    "@mui/joy": "^5.0.0-beta.20",
+    "@mui/material": "^5.15.2",
+    "aws-amplify": "^6.0.9",
+    "aws-lambda": "^1.0.7",
+    "dotenv": "^16.3.1",
+    "markdown-to-jsx": "^7.4.0",
+    "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.0.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@aws-amplify/backend": "^0.7.0",
+    "@aws-amplify/backend-cli": "^0.9.2",
+    "@aws-amplify/plugin-types": "^0.6.0",
+    "@types/aws-lambda": "^8.10.130",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.0.4"
+    "eslint-config-next": "14.0.4",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ],
+    "*.json": "prettier --write",
+    "*.yml": "prettier --write",
+    "*.md": "prettier --write"
   }
 }

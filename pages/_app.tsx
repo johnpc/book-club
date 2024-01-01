@@ -1,6 +1,17 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import "@aws-amplify/ui-react/styles.css";
+import { Amplify } from "aws-amplify";
+// import "@/styles/globals.css";
+import type { AppProps } from "next/app";
+import config from "@/amplifyconfiguration.json";
+import Header from "../components/Header";
+Amplify.configure(config, { ssr: true });
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Header />
+
+      <Component {...pageProps} />
+    </>
+  );
 }
