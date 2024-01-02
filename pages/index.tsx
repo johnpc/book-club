@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import { generateClient } from "aws-amplify/api";
 import PostCreateForm from "@/ui-components/PostCreateForm";
 import Post from "@/components/post/Post";
+import { AuthUser, getCurrentUser } from "aws-amplify/auth";
 const client = generateClient<Schema>();
 
 export type LoadedPost = {
@@ -20,6 +21,7 @@ export type LoadedPost = {
 };
 export default function Home() {
   const [posts, setPosts] = React.useState<LoadedPost[]>([]);
+  const [user, setUser] = React.useState<AuthUser>();
   const loadPosts = async (posts: Schema["Post"][]) => {
     posts.sort((a, b) =>
       new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1,
@@ -39,6 +41,8 @@ export default function Home() {
     const fetchProfile = async () => {
       const listPostsResponse = await client.models.Post.list();
       loadPosts(listPostsResponse.data);
+      const user = await getCurrentUser();
+      setUser(user);
     };
     fetchProfile();
     const sub = client.models.Post.observeQuery().subscribe(({ items }) => {
@@ -50,16 +54,22 @@ export default function Home() {
   }, []);
   return (
     <>
-      <h1>Create a post</h1>
-      <PostCreateForm
-        overrides={{
-          owner: {
-            disabled: true,
-            isRequired: false,
-            isReadOnly: true,
-          },
-        }}
-      />
+      {user && user.signInDetails?.loginId === "john@johncorser.com" ? (
+        <>
+          <h1>Create a post</h1>
+          <PostCreateForm
+            overrides={{
+              owner: {
+                disabled: true,
+                isRequired: false,
+                isReadOnly: true,
+              },
+            }}
+          />
+        </>
+      ) : (
+        ""
+      )}
       <Grid
         item
         xs={12}
@@ -70,7 +80,9 @@ export default function Home() {
           },
         }}
       >
-        <Typography gutterBottom>Post List!</Typography>
+        <Typography level="h4" gutterBottom>
+          Events
+        </Typography>
         <Divider />
         {posts.map((post) => (
           <div key={post.id} style={{ padding: "5px" }}>

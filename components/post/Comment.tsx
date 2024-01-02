@@ -28,7 +28,7 @@ export default function Comment({ comment }: { comment: Schema["Comment"] }) {
   }, []);
   return (
     <>
-      <ListItem>
+      <ListItem sx={{ padding: "5px" }}>
         <ListItemDecorator>
           <AspectRatio
             ratio="1"
@@ -36,7 +36,7 @@ export default function Comment({ comment }: { comment: Schema["Comment"] }) {
             sx={{ flex: 1, minWidth: 50, borderRadius: "100%", padding: "5px" }}
           >
             <StorageImage
-              alt={profile?.email}
+              alt={profile?.name ?? profile?.email}
               imgKey={profile?.avatarKey!}
               accessLevel="guest"
               fallbackSrc="https://fdocizdzprkfeigbnlxy.supabase.co/storage/v1/object/public/arbor-eats-app-files/missing-avatar.png"
@@ -45,8 +45,10 @@ export default function Comment({ comment }: { comment: Schema["Comment"] }) {
           </AspectRatio>{" "}
         </ListItemDecorator>
         <ListItemContent>
-          {comment?.content} -{" "}
-          <Typography level="body-xs">{profile?.email}</Typography>
+          {comment?.content}
+          <Typography level="body-xs">
+            {profile?.name ?? profile?.email}
+          </Typography>
         </ListItemContent>
         <Typography level="body-xs">
           &nbsp;{dateToString(new Date(comment?.createdAt))}
