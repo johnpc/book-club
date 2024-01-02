@@ -1,8 +1,6 @@
-# Amplify NextJS Boilerplate
+# Book Club
 
-This is a boilerplate repository for using Amplify with NextJS. It includes Auth, Data, Storage, and Function categories, as well as server side NextJS api routes.
-
-See [live demo](https://main.d2dpy7s07blbf1.amplifyapp.com/) to see what you get out-of-the-box.
+This a NextJS/AWS Amplify application for my book club.
 
 ## Development
 
@@ -52,4 +50,4 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 Deploy to AWS Amplify with one click
 
-[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/johnpc/amplify-next-boilerplate)
+[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/johnpc/book-club)
