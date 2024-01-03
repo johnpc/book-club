@@ -9,15 +9,9 @@ import Post from "@/components/post/Post";
 import { AuthUser, getCurrentUser } from "aws-amplify/auth";
 const client = generateClient<Schema>();
 
-export type LoadedPost = {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  createdAt: string;
-  updatedAt: string;
-  comments: any[];
-  likes: any[];
+export type LoadedPost = Schema["Post"] & {
+  loadedComments: Schema["Comment"][];
+  loadedLikes: Schema["Like"][];
 };
 export default function Home() {
   const [posts, setPosts] = React.useState<LoadedPost[]>([]);
@@ -30,8 +24,8 @@ export default function Home() {
     const postPromises = posts.map(
       async (post): Promise<LoadedPost> => ({
         ...post,
-        comments: (await post.comments()).data as Schema["Comment"][],
-        likes: (await post.likes()).data as Schema["Like"][],
+        loadedComments: (await post.comments()).data,
+        loadedLikes: (await post.likes()).data,
       }),
     );
 
@@ -49,9 +43,15 @@ export default function Home() {
       const posts = [...items];
       loadPosts(posts);
     });
+    const likesSub = client.models.Like.observeQuery().subscribe(() => {
+      loadPosts(posts as unknown as Schema["Post"][]);
+    });
 
-    return () => sub.unsubscribe();
-  }, []);
+    return () => {
+      sub.unsubscribe();
+      likesSub.unsubscribe();
+    };
+  }, [posts.length]);
   return (
     <>
       <Grid
@@ -72,8 +72,8 @@ export default function Home() {
           <div key={post.id} style={{ padding: "5px" }}>
             <Post
               post={post as unknown as Schema["Post"]}
-              comments={post.comments}
-              likes={post.likes}
+              comments={post.loadedComments}
+              likes={post.loadedLikes}
               showPostLink
             />
           </div>

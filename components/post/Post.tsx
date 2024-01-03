@@ -5,7 +5,7 @@ import { Button, Card, CardContent, IconButton, Typography } from "@mui/joy";
 import Markdown from "../Markdown";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { AuthUser, getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser } from "aws-amplify/auth";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 import LikesSection from "./LikesSection";
 
@@ -65,14 +65,28 @@ export default function Post({
             sx={{ position: "absolute", top: "0.875rem", right: "0.5rem" }}
             onClick={handleLikePost}
           >
-            {showPostLink ? (
-              ""
-            ) : liked ? (
-              <BookmarkAdd />
-            ) : (
-              <BookmarkAddOutlined />
-            )}
+            {liked ? <BookmarkAdd /> : <BookmarkAddOutlined />}
           </IconButton>
+
+          {showPostLink ? (
+            <>
+              <Button
+                variant="soft"
+                size="md"
+                aria-label="View Details"
+                sx={{
+                  ml: "auto",
+                  alignSelf: "center",
+                  fontWeight: 600,
+                  margin: "10px",
+                }}
+              >
+                <Link href={`/posts/${post.id}`}>View Event Details</Link>
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
         <AddToCalendarButton
           name={post?.title}
@@ -94,33 +108,20 @@ export default function Post({
             <LikesSection likes={likes} />
             <Typography level="body-xs">{comments?.length} comments</Typography>
           </div>
-        </CardContent>
-        {showPostLink ? (
-          <>
+
+          {profile && profile?.email === "john@johncorser.com" ? (
             <Button
               variant="soft"
               size="md"
               aria-label="View Details"
               sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
             >
-              <Link href={`/posts/${post.id}`}>View Details</Link>
+              <Link href={`/posts/${post.id}/edit`}>Edit</Link>
             </Button>
-            {profile && profile?.email === "john@johncorser.com" ? (
-              <Button
-                variant="soft"
-                size="md"
-                aria-label="View Details"
-                sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
-              >
-                <Link href={`/posts/${post.id}/edit`}>Edit</Link>
-              </Button>
-            ) : (
-              ""
-            )}
-          </>
-        ) : (
-          ""
-        )}
+          ) : (
+            ""
+          )}
+        </CardContent>
       </Card>
     </>
   );
