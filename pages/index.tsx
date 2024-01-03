@@ -54,28 +54,6 @@ export default function Home() {
   }, []);
   return (
     <>
-      {user && user.signInDetails?.loginId === "john@johncorser.com" ? (
-        <>
-          <h1>Create a post</h1>
-          <PostCreateForm
-            overrides={{
-              owner: {
-                disabled: true,
-                isRequired: false,
-                isReadOnly: true,
-              },
-            }}
-            onSubmit={(fields) => {
-              return {
-                ...fields,
-                owner: user?.userId,
-              };
-            }}
-          />
-        </>
-      ) : (
-        ""
-      )}
       <Grid
         item
         xs={12}
@@ -101,6 +79,28 @@ export default function Home() {
           </div>
         ))}
       </Grid>
+      {user && user.signInDetails?.loginId === "john@johncorser.com" ? (
+        <>
+          <h1>Create a post</h1>
+          <PostCreateForm
+            overrides={{
+              owner: {
+                disabled: true,
+                isRequired: false,
+                isReadOnly: true,
+              },
+            }}
+            onSubmit={(fields) => {
+              return {
+                ...fields,
+                owner: user?.userId,
+              };
+            }}
+          />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }

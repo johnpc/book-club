@@ -184,6 +184,8 @@ export default function PostUpdateForm(props) {
         isRequired={true}
         isReadOnly={false}
         value={description}
+        resize="vertical"
+        rows={10}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -232,33 +234,6 @@ export default function PostUpdateForm(props) {
         errorMessage={errors.title?.errorMessage}
         hasError={errors.title?.hasError}
         {...getOverrideProps(overrides, "title")}
-      ></TextField>
-      <TextField
-        label="Owner"
-        isRequired={false}
-        isReadOnly={false}
-        value={owner}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              date,
-              description,
-              title,
-              owner: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.owner ?? value;
-          }
-          if (errors.owner?.hasError) {
-            runValidationTasks("owner", value);
-          }
-          setOwner(value);
-        }}
-        onBlur={() => runValidationTasks("owner", owner)}
-        errorMessage={errors.owner?.errorMessage}
-        hasError={errors.owner?.hasError}
-        {...getOverrideProps(overrides, "owner")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -100,16 +100,16 @@ export default function Post({
             <Button
               variant="soft"
               size="md"
-              aria-label="View post"
+              aria-label="View Details"
               sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
             >
-              <Link href={`/posts/${post.id}`}>View Post</Link>
+              <Link href={`/posts/${post.id}`}>View Details</Link>
             </Button>
             {profile && profile?.email === "john@johncorser.com" ? (
               <Button
                 variant="soft"
                 size="md"
-                aria-label="View post"
+                aria-label="View Details"
                 sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
               >
                 <Link href={`/posts/${post.id}/edit`}>Edit</Link>

@@ -22,7 +22,6 @@ export default function CommentsSection({
   }, []);
   return (
     <>
-      <h1>Add a comment</h1>
       <CommentCreateForm
         overrides={{
           owner: {

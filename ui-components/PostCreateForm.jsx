@@ -165,6 +165,9 @@ export default function PostCreateForm(props) {
         isRequired={true}
         isReadOnly={false}
         value={description}
+        resize="vertical"
+        rows={10}
+        placeholder="You can use **Markdown** and embedded <html> tags"
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -191,6 +194,7 @@ export default function PostCreateForm(props) {
         label="Title"
         isRequired={true}
         isReadOnly={false}
+        placeholder="Feel free to use **Markdown**"
         value={title}
         onChange={(e) => {
           let { value } = e.target;
@@ -213,33 +217,6 @@ export default function PostCreateForm(props) {
         errorMessage={errors.title?.errorMessage}
         hasError={errors.title?.hasError}
         {...getOverrideProps(overrides, "title")}
-      ></TextField>
-      <TextField
-        label="Owner"
-        isRequired={false}
-        isReadOnly={false}
-        value={owner}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              date,
-              description,
-              title,
-              owner: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.owner ?? value;
-          }
-          if (errors.owner?.hasError) {
-            runValidationTasks("owner", value);
-          }
-          setOwner(value);
-        }}
-        onBlur={() => runValidationTasks("owner", owner)}
-        errorMessage={errors.owner?.errorMessage}
-        hasError={errors.owner?.hasError}
-        {...getOverrideProps(overrides, "owner")}
       ></TextField>
       <Flex
         justifyContent="space-between"
