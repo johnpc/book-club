@@ -46,7 +46,7 @@ export default function CommentsSection({
       </div>
 
       {comments?.map((comment) => (
-        <div key={comment.id}>
+        <div key={comment.id} style={{ margin: "10px" }}>
           <Comment comment={comment} />
           <ListDivider inset={"startContent"} />
         </div>

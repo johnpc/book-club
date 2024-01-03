@@ -7,7 +7,7 @@ export default function LikesSection({ likes }: { likes: Schema["Like"][] }) {
   const filteredLikes = likes.filter((like) => like.isLiked);
   return (
     <>
-      <Card>
+      <Card sx={{ margin: "5px" }}>
         <Typography level="body-xs">
           Interested ({filteredLikes.length}):
         </Typography>

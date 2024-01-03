@@ -65,6 +65,12 @@ export default function Home() {
                 isReadOnly: true,
               },
             }}
+            onSubmit={(fields) => {
+              return {
+                ...fields,
+                owner: user?.userId,
+              };
+            }}
           />
         </>
       ) : (
@@ -80,8 +86,8 @@ export default function Home() {
           },
         }}
       >
-        <Typography level="h4" gutterBottom>
-          Events
+        <Typography padding={"15px"} level="h4" gutterBottom>
+          Book Club Schedule
         </Typography>
         <Divider />
         {posts.map((post) => (

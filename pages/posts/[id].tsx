@@ -4,7 +4,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import CommentsSection from "../../components/post/CommentsSection";
 import Post from "@/components/post/Post";
-import LikesSection from "@/components/post/LikesSection";
 const client = generateClient<Schema>();
 
 const PostId = () => {
@@ -65,7 +64,6 @@ const PostId = () => {
         likes={likes}
         showPostLink={false}
       />
-      <LikesSection likes={likes ?? []} />
       <CommentsSection post={post} comments={comments ?? []} />
     </>
   );

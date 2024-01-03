@@ -4,8 +4,11 @@ import { BookmarkAdd, BookmarkAddOutlined } from "@mui/icons-material";
 import { Button, Card, CardContent, IconButton, Typography } from "@mui/joy";
 import Markdown from "../Markdown";
 import Link from "next/link";
-import React from "react";
-import { getCurrentUser } from "aws-amplify/auth";
+import React, { useEffect } from "react";
+import { AuthUser, getCurrentUser } from "aws-amplify/auth";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
+import LikesSection from "./LikesSection";
+
 const client = generateClient<Schema>();
 
 export default function Post({
@@ -20,7 +23,16 @@ export default function Post({
   showPostLink: boolean;
 }) {
   const [liked, setLiked] = React.useState<boolean>(false);
+  const [profile, setProfile] = React.useState<Schema["Profile"]>();
 
+  useEffect(() => {
+    const setup = async () => {
+      const meResponse = await fetch("/api/users/me");
+      const me = await meResponse.json();
+      setProfile(me.profile);
+    };
+    setup();
+  }, []);
   const handleLikePost = async () => {
     const user = await getCurrentUser();
     const myLike = likes.find((like) => like.owner === user.userId);
@@ -62,6 +74,12 @@ export default function Post({
             )}
           </IconButton>
         </div>
+        <AddToCalendarButton
+          name={post?.title}
+          startDate={post?.date}
+          options={["Apple", "Google", "iCal"]}
+          timeZone="America/New_York"
+        ></AddToCalendarButton>
 
         {post ? (
           <Markdown className="markdown" key={post?.id}>
@@ -73,24 +91,33 @@ export default function Post({
 
         <CardContent orientation="horizontal">
           <div>
-            <Typography level="body-xs">Activity:</Typography>
-            <Typography fontSize="lg" fontWeight="lg">
-              {comments?.length} comments
-            </Typography>
-            <Typography fontSize="lg" fontWeight="lg">
-              {likes?.filter((like) => like.isLiked).length} interested
-            </Typography>
+            <LikesSection likes={likes} />
+            <Typography level="body-xs">{comments?.length} comments</Typography>
           </div>
         </CardContent>
         {showPostLink ? (
-          <Button
-            variant="soft"
-            size="md"
-            aria-label="View post"
-            sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
-          >
-            <Link href={`/posts/${post.id}`}>View Post</Link>
-          </Button>
+          <>
+            <Button
+              variant="soft"
+              size="md"
+              aria-label="View post"
+              sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+            >
+              <Link href={`/posts/${post.id}`}>View Post</Link>
+            </Button>
+            {profile && profile?.email === "john@johncorser.com" ? (
+              <Button
+                variant="soft"
+                size="md"
+                aria-label="View post"
+                sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+              >
+                <Link href={`/posts/${post.id}/edit`}>Edit</Link>
+              </Button>
+            ) : (
+              ""
+            )}
+          </>
         ) : (
           ""
         )}
