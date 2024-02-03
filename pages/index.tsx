@@ -30,10 +30,10 @@ export default function Home() {
     };
   }, [posts.length]);
   return (
-    <>
+    <div style={{ width: "50%", marginLeft: "25%" }}>
       <Grid
         item
-        xs={12}
+        xs={8}
         md={8}
         sx={{
           "& .markdown": {
@@ -44,7 +44,6 @@ export default function Home() {
         <Typography padding={"15px"} level="h4" gutterBottom>
           Book Club Schedule
         </Typography>
-        <Divider />
         {posts.map((post) => (
           <div key={post.id} style={{ padding: "5px" }}>
             <Post
@@ -54,6 +53,6 @@ export default function Home() {
           </div>
         ))}
       </Grid>
-    </>
+    </div>
   );
 }
