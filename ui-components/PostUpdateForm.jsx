@@ -12,7 +12,9 @@ import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getPost } from "./graphql/queries";
 import { updatePost } from "./graphql/mutations";
-const client = generateClient();
+const client = generateClient({
+  authMode: "userPool",
+});
 export default function PostUpdateForm(props) {
   const {
     id: idProp,

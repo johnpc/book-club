@@ -4,52 +4,29 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/joy/Typography";
 import Divider from "@mui/material/Divider";
 import { generateClient } from "aws-amplify/api";
-import PostCreateForm from "@/ui-components/PostCreateForm";
 import Post from "@/components/post/Post";
-import { AuthUser, getCurrentUser } from "aws-amplify/auth";
 const client = generateClient<Schema>();
 
-export type LoadedPost = Schema["Post"] & {
-  loadedComments: Schema["Comment"][];
-  loadedLikes: Schema["Like"][];
-};
 export default function Home() {
-  const [posts, setPosts] = React.useState<LoadedPost[]>([]);
-  const [user, setUser] = React.useState<AuthUser>();
+  const [posts, setPosts] = React.useState<Schema["Post"][]>([]);
   const loadPosts = async (posts: Schema["Post"][]) => {
     posts.sort((a, b) =>
       new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1,
     );
-
-    const postPromises = posts.map(
-      async (post): Promise<LoadedPost> => ({
-        ...post,
-        loadedComments: (await post.comments()).data,
-        loadedLikes: (await post.likes()).data,
-      }),
-    );
-
-    setPosts(await Promise.all(postPromises));
+    setPosts(posts);
   };
   React.useEffect(() => {
     const fetchProfile = async () => {
       const listPostsResponse = await client.models.Post.list();
       loadPosts(listPostsResponse.data);
-      const user = await getCurrentUser();
-      setUser(user);
     };
     fetchProfile();
     const sub = client.models.Post.observeQuery().subscribe(({ items }) => {
       const posts = [...items];
       loadPosts(posts);
     });
-    const likesSub = client.models.Like.observeQuery().subscribe(() => {
-      loadPosts(posts as unknown as Schema["Post"][]);
-    });
-
     return () => {
       sub.unsubscribe();
-      likesSub.unsubscribe();
     };
   }, [posts.length]);
   return (
@@ -72,35 +49,11 @@ export default function Home() {
           <div key={post.id} style={{ padding: "5px" }}>
             <Post
               post={post as unknown as Schema["Post"]}
-              comments={post.loadedComments}
-              likes={post.loadedLikes}
-              showPostLink
+              showPostLink={true}
             />
           </div>
         ))}
       </Grid>
-      {user && user.signInDetails?.loginId === "john@johncorser.com" ? (
-        <>
-          <h1>Create a post</h1>
-          <PostCreateForm
-            overrides={{
-              owner: {
-                disabled: true,
-                isRequired: false,
-                isReadOnly: true,
-              },
-            }}
-            onSubmit={(fields) => {
-              return {
-                ...fields,
-                owner: user?.userId,
-              };
-            }}
-          />
-        </>
-      ) : (
-        ""
-      )}
     </>
   );
 }

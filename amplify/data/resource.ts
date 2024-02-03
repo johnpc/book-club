@@ -15,6 +15,7 @@ const schema = a.schema({
       a.allow.owner(),
       a.allow.custom(),
       a.allow.private().to(["read"]),
+      a.allow.private("iam").to(["read"]),
       a.allow.public("iam").to(["read"]),
     ]),
   Post: a
@@ -22,33 +23,12 @@ const schema = a.schema({
       date: a.date().required(),
       description: a.string().required(),
       title: a.string().required(),
-      comments: a.hasMany("Comment"),
-      likes: a.hasMany("Like"),
     })
     .authorization([
       a.allow.custom(),
       a.allow.owner(),
       a.allow.private().to(["read", "create"]),
-      a.allow.public("iam").to(["read"]),
-    ]),
-  Comment: a
-    .model({
-      content: a.string().required(),
-      post: a.belongsTo("Post"),
-    })
-    .authorization([
-      a.allow.owner(),
-      a.allow.private().to(["read", "create"]),
-      a.allow.public("iam").to(["read"]),
-    ]),
-  Like: a
-    .model({
-      isLiked: a.boolean().required(),
-      post: a.belongsTo("Post"),
-    })
-    .authorization([
-      a.allow.owner(),
-      a.allow.private().to(["read", "create"]),
+      a.allow.private("iam").to(["read"]),
       a.allow.public("iam").to(["read"]),
     ]),
 });
@@ -59,7 +39,7 @@ export const data = (authFunction: ConstructFactory<AmplifyFunction>) =>
   defineData({
     schema,
     authorizationModes: {
-      defaultAuthorizationMode: "userPool",
+      defaultAuthorizationMode: "iam",
       lambdaAuthorizationMode: {
         function: authFunction,
         timeToLiveInSeconds: 300,

@@ -1,54 +1,30 @@
 import { Schema } from "@/amplify/data/resource";
-import { generateClient } from "aws-amplify/api";
-import { BookmarkAdd, BookmarkAddOutlined } from "@mui/icons-material";
-import { Button, Card, CardContent, IconButton, Typography } from "@mui/joy";
+import { Button, Card, CardContent, Typography } from "@mui/joy";
 import Markdown from "../Markdown";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { getCurrentUser } from "aws-amplify/auth";
+import { AuthUser, getCurrentUser } from "aws-amplify/auth";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
-import LikesSection from "./LikesSection";
-
-const client = generateClient<Schema>();
 
 export default function Post({
   post,
-  comments,
-  likes,
   showPostLink,
 }: {
   post: Schema["Post"];
-  comments: Schema["Comment"][];
-  likes: Schema["Like"][];
   showPostLink: boolean;
 }) {
-  const [liked, setLiked] = React.useState<boolean>(false);
-  const [profile, setProfile] = React.useState<Schema["Profile"]>();
-
+  const [user, setUser] = React.useState<AuthUser>();
   useEffect(() => {
     const setup = async () => {
-      const meResponse = await fetch("/api/users/me");
-      const me = await meResponse.json();
-      setProfile(me.profile);
+      try {
+        const authUser = await getCurrentUser();
+        setUser(authUser);
+      } catch (e) {
+        console.warn(e);
+      }
     };
     setup();
   }, []);
-  const handleLikePost = async () => {
-    const user = await getCurrentUser();
-    const myLike = likes.find((like) => like.owner === user.userId);
-    if (myLike) {
-      await client.models.Like.update({
-        id: myLike.id,
-        isLiked: !myLike.isLiked,
-      });
-    } else {
-      await client.models.Like.create({
-        isLiked: true,
-        postLikesId: post.id,
-      });
-    }
-    setLiked(!liked);
-  };
   return (
     <>
       <Card sx={{ width: "100%" }}>
@@ -57,23 +33,12 @@ export default function Post({
           <Typography level="body-sm">
             {new Date(post?.date ?? "").toDateString()}
           </Typography>
-          <IconButton
-            aria-label="bookmark post"
-            variant="plain"
-            color="neutral"
-            size="sm"
-            sx={{ position: "absolute", top: "0.875rem", right: "0.5rem" }}
-            onClick={handleLikePost}
-          >
-            {liked ? <BookmarkAdd /> : <BookmarkAddOutlined />}
-          </IconButton>
-
           {showPostLink ? (
             <>
               <Button
                 variant="soft"
                 size="md"
-                aria-label="View Details"
+                aria-label="permalink"
                 sx={{
                   ml: "auto",
                   alignSelf: "center",
@@ -81,7 +46,7 @@ export default function Post({
                   margin: "10px",
                 }}
               >
-                <Link href={`/posts/${post.id}`}>View Event Details</Link>
+                <Link href={`/posts/${post?.id}`}>Permalink</Link>
               </Button>
             </>
           ) : (
@@ -104,12 +69,7 @@ export default function Post({
         )}
 
         <CardContent orientation="horizontal">
-          <div>
-            <LikesSection likes={likes} />
-            <Typography level="body-xs">{comments?.length} comments</Typography>
-          </div>
-
-          {profile && profile?.email === "john@johncorser.com" ? (
+          {user && user?.signInDetails?.loginId === "john@johncorser.com" ? (
             <Button
               variant="soft"
               size="md"
