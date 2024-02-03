@@ -76,7 +76,7 @@ export default function Post({
               aria-label="View Details"
               sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
             >
-              <Link href={`/posts/${post.id}/edit`}>Edit</Link>
+              <Link href={`/posts/${post?.id}/edit`}>Edit</Link>
             </Button>
           ) : (
             ""
