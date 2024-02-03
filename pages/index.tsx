@@ -11,7 +11,7 @@ export default function Home() {
   const [posts, setPosts] = React.useState<Schema["Post"][]>([]);
   const loadPosts = async (posts: Schema["Post"][]) => {
     posts.sort((a, b) =>
-      new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1,
+      new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1,
     );
     setPosts(posts);
   };
