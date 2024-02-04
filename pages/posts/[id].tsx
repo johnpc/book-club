@@ -21,12 +21,15 @@ const PostId = () => {
   }, [router.isReady, post?.id]);
 
   return (
-    <div style={{ width: "50%", marginLeft: "25%" }}>
-      <Typography padding={"15px"} level="h4" gutterBottom>
+    <>
+      <div style={{ margin: "auto", minWidth: "50%", maxWidth: "600px" }}>
+        <Typography padding={"15px"} level="h4" gutterBottom>
           {post?.title}
         </Typography>
-      <Post post={post!} showPostLink={true} />
-    </div>
+        <Post post={post!} showPostLink={true} />
+
+      </div>
+    </>
   );
 };
 export default PostId;

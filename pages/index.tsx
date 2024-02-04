@@ -30,7 +30,7 @@ export default function Home() {
     };
   }, [posts.length]);
   return (
-    <div style={{ width: "50%", marginLeft: "25%" }}>
+    <div style={{ margin: "auto", minWidth: "50%", maxWidth: "600px" }}>
       <Grid
         item
         xs={8}
