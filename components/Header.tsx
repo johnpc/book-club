@@ -1,4 +1,5 @@
 import { Tab, TabList, Tabs, tabClasses } from "@mui/joy";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -7,6 +8,9 @@ export default function Header() {
 
   return (
     <>
+      <Head>
+        <title>A2 Book Club</title>
+      </Head>
       <Tabs
         defaultValue={0}
         sx={{
