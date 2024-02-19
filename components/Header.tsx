@@ -10,6 +10,7 @@ export default function Header() {
     <>
       <Head>
         <title>A2 Book Club</title>
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <Tabs
         defaultValue={0}

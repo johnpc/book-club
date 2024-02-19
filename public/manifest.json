@@ -1,0 +1,37 @@
+{
+  "short_name": "A2 Book Club",
+  "name": "A2 Book Club",
+  "start_url": "/",
+  "dir": "auto",
+  "icons": [
+    {
+      "src": "logo_512_maskable.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "orientation": "any",
+  "background_color": "#d11111",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#d11111",
+  "description": "A2 Book Club Schedule",
+  "shortcuts": [
+    {
+      "name": "Schedule",
+      "short_name": "Schedule",
+      "description": "View book club schedule",
+      "url": "/?source=pwa",
+      "icons": [
+        {
+          "src": "logo_192.png",
+          "sizes": "192x192"
+        },
+        {
+          "src": "logo_512.png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+  ]
+}
