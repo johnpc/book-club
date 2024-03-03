@@ -98,43 +98,54 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
                 }}
               >
                 {options?.map((option, index) => (
-                  <ListItem
-                    variant="outlined"
-                    key={option.id}
-                    sx={{ boxShadow: "sm" }}
-                  >
-                    <ListItemDecorator>(+{option.voteCount})</ListItemDecorator>
-                    <ListItemContent>
-                      <BookListItem bookInfo={option as BookInfo} />
-                      {/*
+                  <>
+                    <ListItem
+                      variant="outlined"
+                      key={option.id}
+                      sx={{ boxShadow: "sm" }}
+                    >
+                      <ListItemDecorator>
+                        (+{option.voteCount})
+                      </ListItemDecorator>
+                      <ListItemContent>
+                        <BookListItem bookInfo={option as BookInfo} />
+                        {/*
                       <Typography level="title-sm">Brunch this weekend?</Typography>
                       <Typography level="body-sm" noWrap>
                         {option.description?.substring(0, 250)}...
                       </Typography> */}
-                    </ListItemContent>
-                    <Radio
-                      overlay
-                      value={option.id}
-                      onChange={() => onRadioChange(option)}
-                      sx={{ flexGrow: 1, flexDirection: "row-reverse" }}
-                      slotProps={{
-                        input: {
-                          ref: (optionsRef as any)[
-                            index
-                          ] as React.MutableRefObject<HTMLInputElement>,
-                        },
-                        action: ({ checked }) => ({
-                          sx: (theme) => ({
-                            ...(checked && {
-                              inset: -1,
-                              border: "2px solid",
-                              borderColor: theme.vars.palette.primary[500],
+                      </ListItemContent>
+                      <Radio
+                        overlay
+                        value={option.id}
+                        onChange={() => onRadioChange(option)}
+                        sx={{ flexGrow: 1, flexDirection: "row-reverse" }}
+                        slotProps={{
+                          input: {
+                            ref: (optionsRef as any)[
+                              index
+                            ] as React.MutableRefObject<HTMLInputElement>,
+                          },
+                          action: ({ checked }) => ({
+                            sx: (theme) => ({
+                              ...(checked && {
+                                inset: -1,
+                                border: "2px solid",
+                                borderColor: theme.vars.palette.primary[500],
+                              }),
                             }),
                           }),
-                        }),
-                      }}
-                    />
-                  </ListItem>
+                        }}
+                      />
+                    </ListItem>
+                    {option.googleBooksUrl ? (
+                      <a href={option.googleBooksUrl}>
+                        (more about &quot;{option.title}&quot;)
+                      </a>
+                    ) : (
+                      ""
+                    )}
+                  </>
                 ))}
               </List>
             </RadioGroup>

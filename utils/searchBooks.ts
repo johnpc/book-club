@@ -22,7 +22,11 @@ export const searchBooks = async (input: string): Promise<BookInfo[]> => {
       description: apiResponseDoc.volumeInfo.description,
       pageCount: apiResponseDoc.volumeInfo.pageCount,
       imageUrl: apiResponseDoc.volumeInfo.imageLinks?.thumbnail,
-      googleBooksUrl: apiResponseDoc.saleInfo?.buyLink,
+      googleBooksUrl:
+        apiResponseDoc.volumeInfo.infoLink ||
+        apiResponseDoc.volumeInfo.previewLink ||
+        apiResponseDoc.saleInfo?.buyLink ||
+        apiResponseDoc.selfLink,
       price: apiResponseDoc.saleInfo.listPrice?.amount,
     }))
     .filter(
