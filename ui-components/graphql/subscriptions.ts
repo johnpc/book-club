@@ -2,6 +2,49 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateBookOption = /* GraphQL */ `
+  subscription OnCreateBookOption(
+    $filter: ModelSubscriptionBookOptionFilterInput
+  ) {
+    onCreateBookOption(filter: $filter) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const onCreatePoll = /* GraphQL */ `
+  subscription OnCreatePoll($filter: ModelSubscriptionPollFilterInput) {
+    onCreatePoll(filter: $filter) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreatePost = /* GraphQL */ `
   subscription OnCreatePost(
     $filter: ModelSubscriptionPostFilterInput
@@ -37,6 +80,49 @@ export const onCreateProfile = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteBookOption = /* GraphQL */ `
+  subscription OnDeleteBookOption(
+    $filter: ModelSubscriptionBookOptionFilterInput
+  ) {
+    onDeleteBookOption(filter: $filter) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const onDeletePoll = /* GraphQL */ `
+  subscription OnDeletePoll($filter: ModelSubscriptionPollFilterInput) {
+    onDeletePoll(filter: $filter) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onDeletePost = /* GraphQL */ `
   subscription OnDeletePost(
     $filter: ModelSubscriptionPostFilterInput
@@ -68,6 +154,49 @@ export const onDeleteProfile = /* GraphQL */ `
       owner
       updatedAt
       userId
+      __typename
+    }
+  }
+`;
+export const onUpdateBookOption = /* GraphQL */ `
+  subscription OnUpdateBookOption(
+    $filter: ModelSubscriptionBookOptionFilterInput
+  ) {
+    onUpdateBookOption(filter: $filter) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const onUpdatePoll = /* GraphQL */ `
+  subscription OnUpdatePoll($filter: ModelSubscriptionPollFilterInput) {
+    onUpdatePoll(filter: $filter) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
       __typename
     }
   }

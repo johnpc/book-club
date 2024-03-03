@@ -27,7 +27,6 @@ const PostId = () => {
           {post?.title}
         </Typography>
         <Post post={post!} showPostLink={true} />
-
       </div>
     </>
   );

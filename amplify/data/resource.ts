@@ -31,6 +31,26 @@ const schema = a.schema({
       a.allow.private("iam").to(["read"]),
       a.allow.public("iam").to(["read"]),
     ]),
+  Poll: a
+    .model({
+      options: a.hasMany("BookOption"),
+      prompt: a.string().required(),
+    })
+    .authorization([a.allow.public("iam"), a.allow.private("iam")]),
+  BookOption: a
+    .model({
+      poll: a.belongsTo("Poll"),
+      title: a.string().required(),
+      author: a.string().required(),
+      publishDate: a.string().required(),
+      description: a.string(),
+      pageCount: a.integer().required(),
+      imageUrl: a.string(),
+      googleBooksUrl: a.string(),
+      price: a.float(),
+      voteCount: a.integer().required().default(0),
+    })
+    .authorization([a.allow.public("iam"), a.allow.private("iam")]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

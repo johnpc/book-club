@@ -2,6 +2,47 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getBookOption = /* GraphQL */ `
+  query GetBookOption($id: ID!) {
+    getBookOption(id: $id) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const getPoll = /* GraphQL */ `
+  query GetPoll($id: ID!) {
+    getPoll(id: $id) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getPost = /* GraphQL */ `
   query GetPost($id: ID!) {
     getPost(id: $id) {
@@ -27,6 +68,68 @@ export const getProfile = /* GraphQL */ `
       owner
       updatedAt
       userId
+      __typename
+    }
+  }
+`;
+export const listBookOptions = /* GraphQL */ `
+  query ListBookOptions(
+    $filter: ModelBookOptionFilterInput
+    $id: ID
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listBookOptions(
+      filter: $filter
+      id: $id
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        amazonId
+        author
+        createdAt
+        goodReadsId
+        googleId
+        id
+        pageCount
+        pollOptionsId
+        publishYear
+        title
+        updatedAt
+        voteCount
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listPolls = /* GraphQL */ `
+  query ListPolls(
+    $filter: ModelPollFilterInput
+    $id: ID
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listPolls(
+      filter: $filter
+      id: $id
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      nextToken
       __typename
     }
   }

@@ -2,6 +2,53 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createBookOption = /* GraphQL */ `
+  mutation CreateBookOption(
+    $condition: ModelBookOptionConditionInput
+    $input: CreateBookOptionInput!
+  ) {
+    createBookOption(condition: $condition, input: $input) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const createPoll = /* GraphQL */ `
+  mutation CreatePoll(
+    $condition: ModelPollConditionInput
+    $input: CreatePollInput!
+  ) {
+    createPoll(condition: $condition, input: $input) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createPost = /* GraphQL */ `
   mutation CreatePost(
     $condition: ModelPostConditionInput
@@ -37,6 +84,53 @@ export const createProfile = /* GraphQL */ `
     }
   }
 `;
+export const deleteBookOption = /* GraphQL */ `
+  mutation DeleteBookOption(
+    $condition: ModelBookOptionConditionInput
+    $input: DeleteBookOptionInput!
+  ) {
+    deleteBookOption(condition: $condition, input: $input) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const deletePoll = /* GraphQL */ `
+  mutation DeletePoll(
+    $condition: ModelPollConditionInput
+    $input: DeletePollInput!
+  ) {
+    deletePoll(condition: $condition, input: $input) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deletePost = /* GraphQL */ `
   mutation DeletePost(
     $condition: ModelPostConditionInput
@@ -68,6 +162,53 @@ export const deleteProfile = /* GraphQL */ `
       owner
       updatedAt
       userId
+      __typename
+    }
+  }
+`;
+export const updateBookOption = /* GraphQL */ `
+  mutation UpdateBookOption(
+    $condition: ModelBookOptionConditionInput
+    $input: UpdateBookOptionInput!
+  ) {
+    updateBookOption(condition: $condition, input: $input) {
+      amazonId
+      author
+      createdAt
+      goodReadsId
+      googleId
+      id
+      pageCount
+      poll {
+        createdAt
+        id
+        prompt
+        updatedAt
+        __typename
+      }
+      pollOptionsId
+      publishYear
+      title
+      updatedAt
+      voteCount
+      __typename
+    }
+  }
+`;
+export const updatePoll = /* GraphQL */ `
+  mutation UpdatePoll(
+    $condition: ModelPollConditionInput
+    $input: UpdatePollInput!
+  ) {
+    updatePoll(condition: $condition, input: $input) {
+      createdAt
+      id
+      options {
+        nextToken
+        __typename
+      }
+      prompt
+      updatedAt
       __typename
     }
   }

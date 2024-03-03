@@ -4,9 +4,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createPost } from "./graphql/mutations";
+import { createPoll } from "./graphql/mutations";
 const client = generateClient();
-export default function PostCreateForm(props) {
+export default function PollCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -18,30 +18,16 @@ export default function PostCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    date: "",
-    description: "",
-    title: "",
-    owner: "",
+    prompt: "",
   };
-  const [date, setDate] = React.useState(initialValues.date);
-  const [description, setDescription] = React.useState(
-    initialValues.description,
-  );
-  const [title, setTitle] = React.useState(initialValues.title);
-  const [owner, setOwner] = React.useState(initialValues.owner);
+  const [prompt, setPrompt] = React.useState(initialValues.prompt);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setDate(initialValues.date);
-    setDescription(initialValues.description);
-    setTitle(initialValues.title);
-    setOwner(initialValues.owner);
+    setPrompt(initialValues.prompt);
     setErrors({});
   };
   const validations = {
-    date: [{ type: "Required" }],
-    description: [{ type: "Required" }],
-    title: [{ type: "Required" }],
-    owner: [],
+    prompt: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -69,10 +55,7 @@ export default function PostCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          date,
-          description,
-          title,
-          owner,
+          prompt,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -103,7 +86,7 @@ export default function PostCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createPost.replaceAll("__typename", ""),
+            query: createPoll.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -123,117 +106,32 @@ export default function PostCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PostCreateForm")}
+      {...getOverrideProps(overrides, "PollCreateForm")}
       {...rest}
     >
       <TextField
-        label="Date"
+        label="Prompt"
         isRequired={true}
         isReadOnly={false}
-        type="date"
-        value={date}
+        value={prompt}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              date: value,
-              description,
-              title,
-              owner,
+              prompt: value,
             };
             const result = onChange(modelFields);
-            value = result?.date ?? value;
+            value = result?.prompt ?? value;
           }
-          if (errors.date?.hasError) {
-            runValidationTasks("date", value);
+          if (errors.prompt?.hasError) {
+            runValidationTasks("prompt", value);
           }
-          setDate(value);
+          setPrompt(value);
         }}
-        onBlur={() => runValidationTasks("date", date)}
-        errorMessage={errors.date?.errorMessage}
-        hasError={errors.date?.hasError}
-        {...getOverrideProps(overrides, "date")}
-      ></TextField>
-      <TextField
-        label="Description"
-        isRequired={true}
-        isReadOnly={false}
-        value={description}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              date,
-              description: value,
-              title,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.description ?? value;
-          }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
-          }
-          setDescription(value);
-        }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
-      ></TextField>
-      <TextField
-        label="Title"
-        isRequired={true}
-        isReadOnly={false}
-        value={title}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              date,
-              description,
-              title: value,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.title ?? value;
-          }
-          if (errors.title?.hasError) {
-            runValidationTasks("title", value);
-          }
-          setTitle(value);
-        }}
-        onBlur={() => runValidationTasks("title", title)}
-        errorMessage={errors.title?.errorMessage}
-        hasError={errors.title?.hasError}
-        {...getOverrideProps(overrides, "title")}
-      ></TextField>
-      <TextField
-        label="Owner"
-        isRequired={false}
-        isReadOnly={false}
-        value={owner}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              date,
-              description,
-              title,
-              owner: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.owner ?? value;
-          }
-          if (errors.owner?.hasError) {
-            runValidationTasks("owner", value);
-          }
-          setOwner(value);
-        }}
-        onBlur={() => runValidationTasks("owner", owner)}
-        errorMessage={errors.owner?.errorMessage}
-        hasError={errors.owner?.hasError}
-        {...getOverrideProps(overrides, "owner")}
+        onBlur={() => runValidationTasks("prompt", prompt)}
+        errorMessage={errors.prompt?.errorMessage}
+        hasError={errors.prompt?.hasError}
+        {...getOverrideProps(overrides, "prompt")}
       ></TextField>
       <Flex
         justifyContent="space-between"
