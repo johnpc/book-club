@@ -21,6 +21,7 @@ import SuggestBook from "./SuggestBook";
 import BookOption from "./BookOption";
 import { BookInfo } from "@/utils/searchBooks";
 import BookListItem from "./BookListItem";
+import { Box } from "@mui/material";
 const client = generateClient<Schema>();
 
 export default function Poll({ poll }: { poll: Schema["Poll"] }) {
@@ -84,6 +85,9 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
 
         <CardContent orientation="horizontal">
           <div style={{ width: "100%" }}>
+            <SuggestBook poll={poll} />
+            <Divider sx={{ marginY: "15px" }} />
+            <Box>Vote the current suggestions:</Box>
             <RadioGroup
               aria-label="Your plan"
               name="people"
@@ -160,10 +164,8 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
                 Vote!
               </Button>
             ) : (
-              "Be the first to suggest a book!"
+              <Card>No suggestions yet. Be the first to suggest a book!</Card>
             )}
-            <Divider sx={{ marginY: "15px" }} />
-            <SuggestBook poll={poll} />
           </div>
         </CardContent>
       </Card>

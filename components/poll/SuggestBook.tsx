@@ -89,7 +89,7 @@ export default function SuggestBook({ poll }: { poll: Schema["Poll"] }) {
           setInputValue(newInputValue);
         }}
         renderInput={(params) => (
-          <TextField {...params} label="Book" fullWidth />
+          <TextField {...params} label="Suggest a Book" fullWidth />
         )}
         renderOption={(props, option: BookInfo) => {
           return (
