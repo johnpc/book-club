@@ -2,7 +2,6 @@ import { Schema } from "@/amplify/data/resource";
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/joy/Typography";
-import Divider from "@mui/material/Divider";
 import { generateClient } from "aws-amplify/api";
 import Post from "@/components/post/Post";
 const client = generateClient<Schema>();

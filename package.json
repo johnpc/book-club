@@ -24,9 +24,12 @@
     "aws-amplify": "^6.0.9",
     "aws-lambda": "^1.0.7",
     "dotenv": "^16.3.1",
+    "i": "^0.3.7",
     "markdown-to-jsx": "^7.4.0",
     "next": "14.0.4",
+    "npm": "^10.5.0",
     "react": "^18",
+    "react-cookie": "^7.1.0",
     "react-dom": "^18",
     "react-show-more-text": "^1.7.1"
   },

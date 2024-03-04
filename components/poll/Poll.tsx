@@ -19,13 +19,12 @@ import SuggestBook from "./SuggestBook";
 import { BookInfo } from "@/utils/searchBooks";
 import BookListItem from "./BookListItem";
 import { Box } from "@mui/material";
+import { useCookies } from "react-cookie";
 const client = generateClient<Schema>();
 
 export default function Poll({ poll }: { poll: Schema["Poll"] }) {
   const [options, setOptions] = React.useState<Schema["BookOption"][]>([]);
-  const [disableVoteButton, setDisableVoteButton] =
-    React.useState<boolean>(true);
-  const [voted, setVoted] = React.useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies();
   const [selectedOption, setSelectedOption] =
     React.useState<Schema["BookOption"]>();
   const optionsRef = useRef<HTMLInputElement[]>([]);
@@ -58,7 +57,6 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
 
   const onRadioChange = (option: Schema["BookOption"]) => {
     setSelectedOption(option);
-    setDisableVoteButton(false);
   };
 
   const onVote = async () => {
@@ -66,8 +64,7 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
       id: selectedOption!.id,
       voteCount: selectedOption!.voteCount + 1,
     });
-    setDisableVoteButton(true);
-    setVoted(true);
+    setCookie(selectedOption!.id, true);
   };
 
   return (
@@ -97,7 +94,7 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
                 {options?.map((option, index) => (
                   <>
                     <ListItem
-                      variant="outlined"
+                      variant={cookies[option.id] ? "soft" : "outlined"}
                       key={option.id}
                       sx={{ boxShadow: "sm" }}
                     >
@@ -110,6 +107,7 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
                       <Radio
                         overlay
                         value={option.id}
+                        disabled={cookies[option.id]}
                         onChange={() => onRadioChange(option)}
                         sx={{ flexGrow: 1, flexDirection: "row-reverse" }}
                         slotProps={{
@@ -146,7 +144,6 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
                 onClick={() => onVote()}
                 type="submit"
                 variant="soft"
-                disabled={voted || disableVoteButton}
                 sx={{ marginY: "15px" }}
               >
                 Vote!
