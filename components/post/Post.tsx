@@ -5,6 +5,8 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { AuthUser, getCurrentUser } from "aws-amplify/auth";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
+import { BookInfo, searchBooks } from "@/utils/searchBooks";
+import BookSummary from "../poll/BookSummary";
 
 export default function Post({
   post,
@@ -14,6 +16,7 @@ export default function Post({
   showPostLink: boolean;
 }) {
   const [user, setUser] = React.useState<AuthUser>();
+  const [bookInfo, setBookInfo] = React.useState<BookInfo>();
   useEffect(() => {
     const setup = async () => {
       try {
@@ -22,6 +25,8 @@ export default function Post({
       } catch (e) {
         console.warn(e);
       }
+      const searchResults = await searchBooks(post.title);
+      setBookInfo(searchResults[0]);
     };
     setup();
   }, []);
@@ -67,6 +72,7 @@ export default function Post({
         ) : (
           ""
         )}
+        {bookInfo ? <BookSummary bookInfo={bookInfo} /> : ""}
 
         <CardContent orientation="horizontal">
           {user && user?.signInDetails?.loginId === "john@johncorser.com" ? (
