@@ -1,6 +1,6 @@
 import { BookInfo } from "@/utils/searchBooks";
 import { Divider } from "@aws-amplify/ui-react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Image from "next/image";
 
 export default function BookListItem({ bookInfo }: { bookInfo: BookInfo }) {

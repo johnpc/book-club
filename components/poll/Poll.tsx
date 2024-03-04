@@ -1,12 +1,10 @@
 import { Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
-import { BookOutlined } from "@mui/icons-material";
 import {
   Button,
   Card,
   CardContent,
   Divider,
-  Input,
   List,
   ListItem,
   ListItemContent,
@@ -18,7 +16,6 @@ import {
 import React, { useRef } from "react";
 import Link from "next/link";
 import SuggestBook from "./SuggestBook";
-import BookOption from "./BookOption";
 import { BookInfo } from "@/utils/searchBooks";
 import BookListItem from "./BookListItem";
 import { Box } from "@mui/material";
@@ -87,12 +84,8 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
           <div style={{ width: "100%" }}>
             <SuggestBook poll={poll} />
             <Divider sx={{ marginY: "15px" }} />
-            <Box>Vote the current suggestions:</Box>
-            <RadioGroup
-              aria-label="Your plan"
-              name="people"
-              defaultValue="Individual"
-            >
+            <Box>Vote on the current suggestions:</Box>
+            <RadioGroup>
               <List
                 sx={{
                   minWidth: 240,
@@ -113,11 +106,6 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
                       </ListItemDecorator>
                       <ListItemContent>
                         <BookListItem bookInfo={option as BookInfo} />
-                        {/*
-                      <Typography level="title-sm">Brunch this weekend?</Typography>
-                      <Typography level="body-sm" noWrap>
-                        {option.description?.substring(0, 250)}...
-                      </Typography> */}
                       </ListItemContent>
                       <Radio
                         overlay

@@ -1,11 +1,13 @@
 import { BookInfo } from "@/utils/searchBooks";
 import { Divider } from "@aws-amplify/ui-react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Card } from "@mui/joy";
+import { Grid, Typography } from "@mui/material";
 import Image from "next/image";
+import ShowMoreText from "react-show-more-text";
 
 export default function BookSummary({ bookInfo }: { bookInfo: BookInfo }) {
   return (
-    <>
+    <Card size="lg" variant="soft">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={5}>
           <Image
@@ -31,40 +33,25 @@ export default function BookSummary({ bookInfo }: { bookInfo: BookInfo }) {
             {bookInfo.price ? `$${bookInfo.price}` : ""}
           </Typography>{" "}
           <Divider style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }} />
+          <Typography variant="body1" color="text.secondary">
+            Description:
+          </Typography>
           <Typography variant="body2" color="text.tertiary">
-            {bookInfo.description}
+            <ShowMoreText
+              lines={5}
+              more="Show more"
+              less="Show less"
+              className="content-css"
+              anchorClass="show-more-less-clickable"
+              expanded={false}
+              width={280}
+              truncatedEndingComponent={"... "}
+            >
+              {bookInfo.description}
+            </ShowMoreText>
           </Typography>{" "}
         </Grid>
       </Grid>
-    </>
+    </Card>
   );
 }
-
-/*
-
-      <Grid sx={{ paddingTop: "1rem" }} container spacing={2}>
-        <Grid item xs={6} md={8}>
-          <Image
-            src={bookInfo.imageUrl || "https://picsum.photos/50"}
-            width={100}
-            height={125}
-            style={{ padding: "10px" }}
-            alt={bookInfo.title}
-          />
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography color="text.secondary">{bookInfo.title}</Typography>{" "}
-          <Typography variant="body2" color="text.secondary">
-            by {bookInfo.author}
-          </Typography>{" "}
-          <Divider style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }} />
-          <Typography variant="body2" color="text.tertiary">
-            {bookInfo.pageCount} pages
-          </Typography>{" "}
-          <Typography variant="body2" color="text.tertiary">
-            {bookInfo.price ? `$${bookInfo.price}` : ""}
-          </Typography>{" "}
-        </Grid>
-      </Grid>
-
-*/
