@@ -24,7 +24,6 @@ export declare type ProfileCreateFormInputValues = {
   email?: string;
   avatarKey?: string;
   name?: string;
-  owner?: string;
 };
 export declare type ProfileCreateFormValidationValues = {
   id?: ValidationFunction<string>;
@@ -32,7 +31,6 @@ export declare type ProfileCreateFormValidationValues = {
   email?: ValidationFunction<string>;
   avatarKey?: ValidationFunction<string>;
   name?: ValidationFunction<string>;
-  owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> &
   React.DOMAttributes<HTMLDivElement>;
@@ -43,7 +41,6 @@ export declare type ProfileCreateFormOverridesProps = {
   email?: PrimitiveOverrideProps<TextFieldProps>;
   avatarKey?: PrimitiveOverrideProps<TextFieldProps>;
   name?: PrimitiveOverrideProps<TextFieldProps>;
-  owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ProfileCreateFormProps = React.PropsWithChildren<
   {

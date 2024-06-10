@@ -1,19 +1,11 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextAreaField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createPost } from "./graphql/mutations";
-const client = generateClient({
-  authMode: "userPool",
-});
+const client = generateClient();
 export default function PostCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -29,32 +21,28 @@ export default function PostCreateForm(props) {
     date: "",
     description: "",
     title: "",
-    owner: "",
   };
   const [date, setDate] = React.useState(initialValues.date);
   const [description, setDescription] = React.useState(
-    initialValues.description,
+    initialValues.description
   );
   const [title, setTitle] = React.useState(initialValues.title);
-  const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setDate(initialValues.date);
     setDescription(initialValues.description);
     setTitle(initialValues.title);
-    setOwner(initialValues.owner);
     setErrors({});
   };
   const validations = {
     date: [{ type: "Required" }],
     description: [{ type: "Required" }],
     title: [{ type: "Required" }],
-    owner: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue,
+    getDisplayValue
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -80,23 +68,22 @@ export default function PostCreateForm(props) {
           date,
           description,
           title,
-          owner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item),
-                ),
+                  runValidationTasks(fieldName, item)
+                )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName]),
+              runValidationTasks(fieldName, modelFields[fieldName])
             );
             return promises;
-          }, []),
+          }, [])
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;
@@ -147,7 +134,6 @@ export default function PostCreateForm(props) {
               date: value,
               description,
               title,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.date ?? value;
@@ -162,14 +148,11 @@ export default function PostCreateForm(props) {
         hasError={errors.date?.hasError}
         {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <TextAreaField
+      <TextField
         label="Description"
         isRequired={true}
         isReadOnly={false}
         value={description}
-        resize="vertical"
-        rows={10}
-        placeholder="You can use **Markdown** and embedded <html> tags"
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -177,7 +160,6 @@ export default function PostCreateForm(props) {
               date,
               description: value,
               title,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -191,12 +173,11 @@ export default function PostCreateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextAreaField>
+      ></TextField>
       <TextField
         label="Title"
         isRequired={true}
         isReadOnly={false}
-        placeholder="Feel free to use **Markdown**"
         value={title}
         onChange={(e) => {
           let { value } = e.target;
@@ -205,7 +186,6 @@ export default function PostCreateForm(props) {
               date,
               description,
               title: value,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;

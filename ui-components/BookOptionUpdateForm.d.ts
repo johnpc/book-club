@@ -22,21 +22,23 @@ export declare type ValidationFunction<T> = (
 export declare type BookOptionUpdateFormInputValues = {
   title?: string;
   author?: string;
-  publishYear?: number;
-  amazonId?: string;
-  goodReadsId?: string;
-  googleId?: string;
+  publishDate?: string;
+  description?: string;
   pageCount?: number;
+  imageUrl?: string;
+  googleBooksUrl?: string;
+  price?: number;
   voteCount?: number;
 };
 export declare type BookOptionUpdateFormValidationValues = {
   title?: ValidationFunction<string>;
   author?: ValidationFunction<string>;
-  publishYear?: ValidationFunction<number>;
-  amazonId?: ValidationFunction<string>;
-  goodReadsId?: ValidationFunction<string>;
-  googleId?: ValidationFunction<string>;
+  publishDate?: ValidationFunction<string>;
+  description?: ValidationFunction<string>;
   pageCount?: ValidationFunction<number>;
+  imageUrl?: ValidationFunction<string>;
+  googleBooksUrl?: ValidationFunction<string>;
+  price?: ValidationFunction<number>;
   voteCount?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> &
@@ -45,11 +47,12 @@ export declare type BookOptionUpdateFormOverridesProps = {
   BookOptionUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
   title?: PrimitiveOverrideProps<TextFieldProps>;
   author?: PrimitiveOverrideProps<TextFieldProps>;
-  publishYear?: PrimitiveOverrideProps<TextFieldProps>;
-  amazonId?: PrimitiveOverrideProps<TextFieldProps>;
-  goodReadsId?: PrimitiveOverrideProps<TextFieldProps>;
-  googleId?: PrimitiveOverrideProps<TextFieldProps>;
+  publishDate?: PrimitiveOverrideProps<TextFieldProps>;
+  description?: PrimitiveOverrideProps<TextFieldProps>;
   pageCount?: PrimitiveOverrideProps<TextFieldProps>;
+  imageUrl?: PrimitiveOverrideProps<TextFieldProps>;
+  googleBooksUrl?: PrimitiveOverrideProps<TextFieldProps>;
+  price?: PrimitiveOverrideProps<TextFieldProps>;
   voteCount?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type BookOptionUpdateFormProps = React.PropsWithChildren<

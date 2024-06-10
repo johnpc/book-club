@@ -53,7 +53,7 @@ export default function PollUpdateForm(props) {
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue,
+    getDisplayValue
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -83,16 +83,16 @@ export default function PollUpdateForm(props) {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item),
-                ),
+                  runValidationTasks(fieldName, item)
+                )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName]),
+              runValidationTasks(fieldName, modelFields[fieldName])
             );
             return promises;
-          }, []),
+          }, [])
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;

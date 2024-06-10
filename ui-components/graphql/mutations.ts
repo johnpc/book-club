@@ -8,12 +8,12 @@ export const createBookOption = /* GraphQL */ `
     $input: CreateBookOptionInput!
   ) {
     createBookOption(condition: $condition, input: $input) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -23,7 +23,8 @@ export const createBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount
@@ -90,12 +91,12 @@ export const deleteBookOption = /* GraphQL */ `
     $input: DeleteBookOptionInput!
   ) {
     deleteBookOption(condition: $condition, input: $input) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -105,7 +106,8 @@ export const deleteBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount
@@ -172,12 +174,12 @@ export const updateBookOption = /* GraphQL */ `
     $input: UpdateBookOptionInput!
   ) {
     updateBookOption(condition: $condition, input: $input) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -187,7 +189,8 @@ export const updateBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount

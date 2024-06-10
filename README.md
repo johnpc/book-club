@@ -20,7 +20,7 @@ Deploy necessary resources to your AWS account via
 npm run sandbox
 ```
 
-This will create an `amplifyconfiguration.json` file at the root of your project, which contains all configuration necessary to interact with the deployed resources.
+This will create an `amplify_outputs.json` file at the root of your project, which contains all configuration necessary to interact with the deployed resources.
 
 ## Testing the Website
 

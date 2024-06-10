@@ -7,8 +7,8 @@ import Post from "@/components/post/Post";
 const client = generateClient<Schema>();
 
 export default function Home() {
-  const [posts, setPosts] = React.useState<Schema["Post"][]>([]);
-  const loadPosts = async (posts: Schema["Post"][]) => {
+  const [posts, setPosts] = React.useState<Schema["Post"]["type"][]>([]);
+  const loadPosts = async (posts: Schema["Post"]["type"][]) => {
     posts.sort((a, b) =>
       new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1,
     );
@@ -46,7 +46,7 @@ export default function Home() {
         {posts.map((post) => (
           <div key={post.id} style={{ padding: "5px" }}>
             <Post
-              post={post as unknown as Schema["Post"]}
+              post={post as unknown as Schema["Post"]["type"]}
               showPostLink={true}
             />
           </div>

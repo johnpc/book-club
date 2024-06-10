@@ -23,13 +23,11 @@ export declare type PostUpdateFormInputValues = {
   date?: string;
   description?: string;
   title?: string;
-  owner?: string;
 };
 export declare type PostUpdateFormValidationValues = {
   date?: ValidationFunction<string>;
   description?: ValidationFunction<string>;
   title?: ValidationFunction<string>;
-  owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> &
   React.DOMAttributes<HTMLDivElement>;
@@ -38,7 +36,6 @@ export declare type PostUpdateFormOverridesProps = {
   date?: PrimitiveOverrideProps<TextFieldProps>;
   description?: PrimitiveOverrideProps<TextFieldProps>;
   title?: PrimitiveOverrideProps<TextFieldProps>;
-  owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PostUpdateFormProps = React.PropsWithChildren<
   {

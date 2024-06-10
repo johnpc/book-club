@@ -1,20 +1,12 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextAreaField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getPost } from "./graphql/queries";
 import { updatePost } from "./graphql/mutations";
-const client = generateClient({
-  authMode: "userPool",
-});
+const client = generateClient();
 export default function PostUpdateForm(props) {
   const {
     id: idProp,
@@ -31,14 +23,12 @@ export default function PostUpdateForm(props) {
     date: "",
     description: "",
     title: "",
-    owner: "",
   };
   const [date, setDate] = React.useState(initialValues.date);
   const [description, setDescription] = React.useState(
-    initialValues.description,
+    initialValues.description
   );
   const [title, setTitle] = React.useState(initialValues.title);
-  const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = postRecord
@@ -47,7 +37,6 @@ export default function PostUpdateForm(props) {
     setDate(cleanValues.date);
     setDescription(cleanValues.description);
     setTitle(cleanValues.title);
-    setOwner(cleanValues.owner);
     setErrors({});
   };
   const [postRecord, setPostRecord] = React.useState(postModelProp);
@@ -70,12 +59,11 @@ export default function PostUpdateForm(props) {
     date: [{ type: "Required" }],
     description: [{ type: "Required" }],
     title: [{ type: "Required" }],
-    owner: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue,
+    getDisplayValue
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -101,23 +89,22 @@ export default function PostUpdateForm(props) {
           date,
           description,
           title,
-          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item),
-                ),
+                  runValidationTasks(fieldName, item)
+                )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName]),
+              runValidationTasks(fieldName, modelFields[fieldName])
             );
             return promises;
-          }, []),
+          }, [])
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;
@@ -166,7 +153,6 @@ export default function PostUpdateForm(props) {
               date: value,
               description,
               title,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.date ?? value;
@@ -181,13 +167,11 @@ export default function PostUpdateForm(props) {
         hasError={errors.date?.hasError}
         {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <TextAreaField
+      <TextField
         label="Description"
         isRequired={true}
         isReadOnly={false}
         value={description}
-        resize="vertical"
-        rows={10}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -195,7 +179,6 @@ export default function PostUpdateForm(props) {
               date,
               description: value,
               title,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -209,7 +192,7 @@ export default function PostUpdateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextAreaField>
+      ></TextField>
       <TextField
         label="Title"
         isRequired={true}
@@ -222,7 +205,6 @@ export default function PostUpdateForm(props) {
               date,
               description,
               title: value,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;

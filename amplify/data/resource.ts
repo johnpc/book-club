@@ -11,35 +11,37 @@ const schema = a.schema({
       avatarKey: a.string(),
       name: a.string(),
     })
-    .authorization([
-      a.allow.owner(),
-      a.allow.custom(),
-      a.allow.private().to(["read"]),
-      a.allow.private("iam").to(["read"]),
-      a.allow.public("iam").to(["read"]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.custom(),
+      allow.authenticated("identityPool").to(["read"]),
+      allow.guest().to(["read"]),
     ]),
   Post: a
     .model({
       date: a.date().required(),
       description: a.string().required(),
       title: a.string().required(),
+      owner: a.string(),
     })
-    .authorization([
-      a.allow.custom(),
-      a.allow.owner(),
-      a.allow.private().to(["read", "create"]),
-      a.allow.private("iam").to(["read"]),
-      a.allow.public("iam").to(["read"]),
+    .authorization((allow) => [
+      allow.custom(),
+      allow.owner(),
+      allow.authenticated("identityPool").to(["read", "create"]),
+      allow.guest().to(["read"]),
     ]),
   Poll: a
     .model({
-      options: a.hasMany("BookOption"),
+      options: a.hasMany("BookOption", "pollOptionsId"),
       prompt: a.string().required(),
     })
-    .authorization([a.allow.public("iam"), a.allow.private("iam")]),
+    .authorization((allow) => [
+      allow.guest(),
+      allow.authenticated("identityPool"),
+    ]),
   BookOption: a
     .model({
-      poll: a.belongsTo("Poll"),
+      poll: a.belongsTo("Poll", "pollOptionsId"),
       title: a.string().required(),
       author: a.string().required(),
       publishDate: a.string().required(),
@@ -47,10 +49,14 @@ const schema = a.schema({
       pageCount: a.integer().required(),
       imageUrl: a.string(),
       googleBooksUrl: a.string(),
+      pollOptionsId: a.string().required(),
       price: a.float(),
       voteCount: a.integer().required().default(0),
     })
-    .authorization([a.allow.public("iam"), a.allow.private("iam")]),
+    .authorization((allow) => [
+      allow.guest(),
+      allow.authenticated("identityPool"),
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

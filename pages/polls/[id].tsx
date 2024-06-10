@@ -7,14 +7,14 @@ const client = generateClient<Schema>();
 
 const PollId = () => {
   const router = useRouter();
-  const [poll, setPoll] = React.useState<Schema["Poll"]>();
+  const [poll, setPoll] = React.useState<Schema["Poll"]["type"]>();
   React.useEffect(() => {
     const setup = async () => {
       if (!router.isReady) return;
       const pollResponse = await client.models.Poll.get({
         id: router.query.id as string,
       });
-      setPoll(pollResponse.data);
+      setPoll(pollResponse.data!);
     };
     setup();
   }, [router.isReady, poll?.id]);

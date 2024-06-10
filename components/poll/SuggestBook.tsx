@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import BookOption from "./BookOption";
 const client = generateClient<Schema>();
 
-export default function SuggestBook({ poll }: { poll: Schema["Poll"] }) {
+export default function SuggestBook({ poll }: { poll: Schema["Poll"]["type"] }) {
   const [value, setValue] = useState<BookInfo | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<readonly BookInfo[]>([]);

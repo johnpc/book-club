@@ -7,12 +7,12 @@ export const onCreateBookOption = /* GraphQL */ `
     $filter: ModelSubscriptionBookOptionFilterInput
   ) {
     onCreateBookOption(filter: $filter) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -22,7 +22,8 @@ export const onCreateBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount
@@ -85,12 +86,12 @@ export const onDeleteBookOption = /* GraphQL */ `
     $filter: ModelSubscriptionBookOptionFilterInput
   ) {
     onDeleteBookOption(filter: $filter) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -100,7 +101,8 @@ export const onDeleteBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount
@@ -163,12 +165,12 @@ export const onUpdateBookOption = /* GraphQL */ `
     $filter: ModelSubscriptionBookOptionFilterInput
   ) {
     onUpdateBookOption(filter: $filter) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -178,7 +180,8 @@ export const onUpdateBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount

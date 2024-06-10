@@ -20,51 +20,57 @@ export default function BookOptionCreateForm(props) {
   const initialValues = {
     title: "",
     author: "",
-    publishYear: "",
-    amazonId: "",
-    goodReadsId: "",
-    googleId: "",
+    publishDate: "",
+    description: "",
     pageCount: "",
+    imageUrl: "",
+    googleBooksUrl: "",
+    price: "",
     voteCount: "",
   };
   const [title, setTitle] = React.useState(initialValues.title);
   const [author, setAuthor] = React.useState(initialValues.author);
-  const [publishYear, setPublishYear] = React.useState(
-    initialValues.publishYear,
+  const [publishDate, setPublishDate] = React.useState(
+    initialValues.publishDate
   );
-  const [amazonId, setAmazonId] = React.useState(initialValues.amazonId);
-  const [goodReadsId, setGoodReadsId] = React.useState(
-    initialValues.goodReadsId,
+  const [description, setDescription] = React.useState(
+    initialValues.description
   );
-  const [googleId, setGoogleId] = React.useState(initialValues.googleId);
   const [pageCount, setPageCount] = React.useState(initialValues.pageCount);
+  const [imageUrl, setImageUrl] = React.useState(initialValues.imageUrl);
+  const [googleBooksUrl, setGoogleBooksUrl] = React.useState(
+    initialValues.googleBooksUrl
+  );
+  const [price, setPrice] = React.useState(initialValues.price);
   const [voteCount, setVoteCount] = React.useState(initialValues.voteCount);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setTitle(initialValues.title);
     setAuthor(initialValues.author);
-    setPublishYear(initialValues.publishYear);
-    setAmazonId(initialValues.amazonId);
-    setGoodReadsId(initialValues.goodReadsId);
-    setGoogleId(initialValues.googleId);
+    setPublishDate(initialValues.publishDate);
+    setDescription(initialValues.description);
     setPageCount(initialValues.pageCount);
+    setImageUrl(initialValues.imageUrl);
+    setGoogleBooksUrl(initialValues.googleBooksUrl);
+    setPrice(initialValues.price);
     setVoteCount(initialValues.voteCount);
     setErrors({});
   };
   const validations = {
     title: [{ type: "Required" }],
     author: [{ type: "Required" }],
-    publishYear: [{ type: "Required" }],
-    amazonId: [],
-    goodReadsId: [],
-    googleId: [],
+    publishDate: [{ type: "Required" }],
+    description: [],
     pageCount: [{ type: "Required" }],
+    imageUrl: [],
+    googleBooksUrl: [],
+    price: [],
     voteCount: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue,
+    getDisplayValue
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -89,11 +95,12 @@ export default function BookOptionCreateForm(props) {
         let modelFields = {
           title,
           author,
-          publishYear,
-          amazonId,
-          goodReadsId,
-          googleId,
+          publishDate,
+          description,
           pageCount,
+          imageUrl,
+          googleBooksUrl,
+          price,
           voteCount,
         };
         const validationResponses = await Promise.all(
@@ -101,16 +108,16 @@ export default function BookOptionCreateForm(props) {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item),
-                ),
+                  runValidationTasks(fieldName, item)
+                )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName]),
+              runValidationTasks(fieldName, modelFields[fieldName])
             );
             return promises;
-          }, []),
+          }, [])
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;
@@ -159,11 +166,12 @@ export default function BookOptionCreateForm(props) {
             const modelFields = {
               title: value,
               author,
-              publishYear,
-              amazonId,
-              goodReadsId,
-              googleId,
+              publishDate,
+              description,
               pageCount,
+              imageUrl,
+              googleBooksUrl,
+              price,
               voteCount,
             };
             const result = onChange(modelFields);
@@ -190,11 +198,12 @@ export default function BookOptionCreateForm(props) {
             const modelFields = {
               title,
               author: value,
-              publishYear,
-              amazonId,
-              goodReadsId,
-              googleId,
+              publishDate,
+              description,
               pageCount,
+              imageUrl,
+              googleBooksUrl,
+              price,
               voteCount,
             };
             const result = onChange(modelFields);
@@ -211,132 +220,68 @@ export default function BookOptionCreateForm(props) {
         {...getOverrideProps(overrides, "author")}
       ></TextField>
       <TextField
-        label="Publish year"
+        label="Publish date"
         isRequired={true}
         isReadOnly={false}
-        type="number"
-        step="any"
-        value={publishYear}
-        onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              title,
-              author,
-              publishYear: value,
-              amazonId,
-              goodReadsId,
-              googleId,
-              pageCount,
-              voteCount,
-            };
-            const result = onChange(modelFields);
-            value = result?.publishYear ?? value;
-          }
-          if (errors.publishYear?.hasError) {
-            runValidationTasks("publishYear", value);
-          }
-          setPublishYear(value);
-        }}
-        onBlur={() => runValidationTasks("publishYear", publishYear)}
-        errorMessage={errors.publishYear?.errorMessage}
-        hasError={errors.publishYear?.hasError}
-        {...getOverrideProps(overrides, "publishYear")}
-      ></TextField>
-      <TextField
-        label="Amazon id"
-        isRequired={false}
-        isReadOnly={false}
-        value={amazonId}
+        value={publishDate}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               title,
               author,
-              publishYear,
-              amazonId: value,
-              goodReadsId,
-              googleId,
+              publishDate: value,
+              description,
               pageCount,
+              imageUrl,
+              googleBooksUrl,
+              price,
               voteCount,
             };
             const result = onChange(modelFields);
-            value = result?.amazonId ?? value;
+            value = result?.publishDate ?? value;
           }
-          if (errors.amazonId?.hasError) {
-            runValidationTasks("amazonId", value);
+          if (errors.publishDate?.hasError) {
+            runValidationTasks("publishDate", value);
           }
-          setAmazonId(value);
+          setPublishDate(value);
         }}
-        onBlur={() => runValidationTasks("amazonId", amazonId)}
-        errorMessage={errors.amazonId?.errorMessage}
-        hasError={errors.amazonId?.hasError}
-        {...getOverrideProps(overrides, "amazonId")}
+        onBlur={() => runValidationTasks("publishDate", publishDate)}
+        errorMessage={errors.publishDate?.errorMessage}
+        hasError={errors.publishDate?.hasError}
+        {...getOverrideProps(overrides, "publishDate")}
       ></TextField>
       <TextField
-        label="Good reads id"
+        label="Description"
         isRequired={false}
         isReadOnly={false}
-        value={goodReadsId}
+        value={description}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               title,
               author,
-              publishYear,
-              amazonId,
-              goodReadsId: value,
-              googleId,
+              publishDate,
+              description: value,
               pageCount,
+              imageUrl,
+              googleBooksUrl,
+              price,
               voteCount,
             };
             const result = onChange(modelFields);
-            value = result?.goodReadsId ?? value;
+            value = result?.description ?? value;
           }
-          if (errors.goodReadsId?.hasError) {
-            runValidationTasks("goodReadsId", value);
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
           }
-          setGoodReadsId(value);
+          setDescription(value);
         }}
-        onBlur={() => runValidationTasks("goodReadsId", goodReadsId)}
-        errorMessage={errors.goodReadsId?.errorMessage}
-        hasError={errors.goodReadsId?.hasError}
-        {...getOverrideProps(overrides, "goodReadsId")}
-      ></TextField>
-      <TextField
-        label="Google id"
-        isRequired={false}
-        isReadOnly={false}
-        value={googleId}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              title,
-              author,
-              publishYear,
-              amazonId,
-              goodReadsId,
-              googleId: value,
-              pageCount,
-              voteCount,
-            };
-            const result = onChange(modelFields);
-            value = result?.googleId ?? value;
-          }
-          if (errors.googleId?.hasError) {
-            runValidationTasks("googleId", value);
-          }
-          setGoogleId(value);
-        }}
-        onBlur={() => runValidationTasks("googleId", googleId)}
-        errorMessage={errors.googleId?.errorMessage}
-        hasError={errors.googleId?.hasError}
-        {...getOverrideProps(overrides, "googleId")}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
       ></TextField>
       <TextField
         label="Page count"
@@ -353,11 +298,12 @@ export default function BookOptionCreateForm(props) {
             const modelFields = {
               title,
               author,
-              publishYear,
-              amazonId,
-              goodReadsId,
-              googleId,
+              publishDate,
+              description,
               pageCount: value,
+              imageUrl,
+              googleBooksUrl,
+              price,
               voteCount,
             };
             const result = onChange(modelFields);
@@ -374,6 +320,106 @@ export default function BookOptionCreateForm(props) {
         {...getOverrideProps(overrides, "pageCount")}
       ></TextField>
       <TextField
+        label="Image url"
+        isRequired={false}
+        isReadOnly={false}
+        value={imageUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title,
+              author,
+              publishDate,
+              description,
+              pageCount,
+              imageUrl: value,
+              googleBooksUrl,
+              price,
+              voteCount,
+            };
+            const result = onChange(modelFields);
+            value = result?.imageUrl ?? value;
+          }
+          if (errors.imageUrl?.hasError) {
+            runValidationTasks("imageUrl", value);
+          }
+          setImageUrl(value);
+        }}
+        onBlur={() => runValidationTasks("imageUrl", imageUrl)}
+        errorMessage={errors.imageUrl?.errorMessage}
+        hasError={errors.imageUrl?.hasError}
+        {...getOverrideProps(overrides, "imageUrl")}
+      ></TextField>
+      <TextField
+        label="Google books url"
+        isRequired={false}
+        isReadOnly={false}
+        value={googleBooksUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title,
+              author,
+              publishDate,
+              description,
+              pageCount,
+              imageUrl,
+              googleBooksUrl: value,
+              price,
+              voteCount,
+            };
+            const result = onChange(modelFields);
+            value = result?.googleBooksUrl ?? value;
+          }
+          if (errors.googleBooksUrl?.hasError) {
+            runValidationTasks("googleBooksUrl", value);
+          }
+          setGoogleBooksUrl(value);
+        }}
+        onBlur={() => runValidationTasks("googleBooksUrl", googleBooksUrl)}
+        errorMessage={errors.googleBooksUrl?.errorMessage}
+        hasError={errors.googleBooksUrl?.hasError}
+        {...getOverrideProps(overrides, "googleBooksUrl")}
+      ></TextField>
+      <TextField
+        label="Price"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={price}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              title,
+              author,
+              publishDate,
+              description,
+              pageCount,
+              imageUrl,
+              googleBooksUrl,
+              price: value,
+              voteCount,
+            };
+            const result = onChange(modelFields);
+            value = result?.price ?? value;
+          }
+          if (errors.price?.hasError) {
+            runValidationTasks("price", value);
+          }
+          setPrice(value);
+        }}
+        onBlur={() => runValidationTasks("price", price)}
+        errorMessage={errors.price?.errorMessage}
+        hasError={errors.price?.hasError}
+        {...getOverrideProps(overrides, "price")}
+      ></TextField>
+      <TextField
         label="Vote count"
         isRequired={true}
         isReadOnly={false}
@@ -388,11 +434,12 @@ export default function BookOptionCreateForm(props) {
             const modelFields = {
               title,
               author,
-              publishYear,
-              amazonId,
-              goodReadsId,
-              googleId,
+              publishDate,
+              description,
               pageCount,
+              imageUrl,
+              googleBooksUrl,
+              price,
               voteCount: value,
             };
             const result = onChange(modelFields);

@@ -5,12 +5,12 @@
 export const getBookOption = /* GraphQL */ `
   query GetBookOption($id: ID!) {
     getBookOption(id: $id) {
-      amazonId
       author
       createdAt
-      goodReadsId
-      googleId
+      description
+      googleBooksUrl
       id
+      imageUrl
       pageCount
       poll {
         createdAt
@@ -20,7 +20,8 @@ export const getBookOption = /* GraphQL */ `
         __typename
       }
       pollOptionsId
-      publishYear
+      price
+      publishDate
       title
       updatedAt
       voteCount
@@ -75,28 +76,21 @@ export const getProfile = /* GraphQL */ `
 export const listBookOptions = /* GraphQL */ `
   query ListBookOptions(
     $filter: ModelBookOptionFilterInput
-    $id: ID
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listBookOptions(
-      filter: $filter
-      id: $id
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listBookOptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        amazonId
         author
         createdAt
-        goodReadsId
-        googleId
+        description
+        googleBooksUrl
         id
+        imageUrl
         pageCount
         pollOptionsId
-        publishYear
+        price
+        publishDate
         title
         updatedAt
         voteCount
@@ -110,18 +104,10 @@ export const listBookOptions = /* GraphQL */ `
 export const listPolls = /* GraphQL */ `
   query ListPolls(
     $filter: ModelPollFilterInput
-    $id: ID
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listPolls(
-      filter: $filter
-      id: $id
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listPolls(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         createdAt
         id
@@ -137,18 +123,10 @@ export const listPolls = /* GraphQL */ `
 export const listPosts = /* GraphQL */ `
   query ListPosts(
     $filter: ModelPostFilterInput
-    $id: ID
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listPosts(
-      filter: $filter
-      id: $id
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         createdAt
         date

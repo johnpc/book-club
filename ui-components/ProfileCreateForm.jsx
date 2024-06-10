@@ -23,14 +23,12 @@ export default function ProfileCreateForm(props) {
     email: "",
     avatarKey: "",
     name: "",
-    owner: "",
   };
   const [id, setId] = React.useState(initialValues.id);
   const [userId, setUserId] = React.useState(initialValues.userId);
   const [email, setEmail] = React.useState(initialValues.email);
   const [avatarKey, setAvatarKey] = React.useState(initialValues.avatarKey);
   const [name, setName] = React.useState(initialValues.name);
-  const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setId(initialValues.id);
@@ -38,7 +36,6 @@ export default function ProfileCreateForm(props) {
     setEmail(initialValues.email);
     setAvatarKey(initialValues.avatarKey);
     setName(initialValues.name);
-    setOwner(initialValues.owner);
     setErrors({});
   };
   const validations = {
@@ -47,12 +44,11 @@ export default function ProfileCreateForm(props) {
     email: [{ type: "Required" }],
     avatarKey: [],
     name: [],
-    owner: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue,
+    getDisplayValue
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -80,23 +76,22 @@ export default function ProfileCreateForm(props) {
           email,
           avatarKey,
           name,
-          owner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item),
-                ),
+                  runValidationTasks(fieldName, item)
+                )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName]),
+              runValidationTasks(fieldName, modelFields[fieldName])
             );
             return promises;
-          }, []),
+          }, [])
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;
@@ -148,7 +143,6 @@ export default function ProfileCreateForm(props) {
               email,
               avatarKey,
               name,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.id ?? value;
@@ -177,7 +171,6 @@ export default function ProfileCreateForm(props) {
               email,
               avatarKey,
               name,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.userId ?? value;
@@ -206,7 +199,6 @@ export default function ProfileCreateForm(props) {
               email: value,
               avatarKey,
               name,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -235,7 +227,6 @@ export default function ProfileCreateForm(props) {
               email,
               avatarKey: value,
               name,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.avatarKey ?? value;
@@ -264,7 +255,6 @@ export default function ProfileCreateForm(props) {
               email,
               avatarKey,
               name: value,
-              owner,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -278,35 +268,6 @@ export default function ProfileCreateForm(props) {
         errorMessage={errors.name?.errorMessage}
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Owner"
-        isRequired={false}
-        isReadOnly={false}
-        value={owner}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              id,
-              userId,
-              email,
-              avatarKey,
-              name,
-              owner: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.owner ?? value;
-          }
-          if (errors.owner?.hasError) {
-            runValidationTasks("owner", value);
-          }
-          setOwner(value);
-        }}
-        onBlur={() => runValidationTasks("owner", owner)}
-        errorMessage={errors.owner?.errorMessage}
-        hasError={errors.owner?.hasError}
-        {...getOverrideProps(overrides, "owner")}
       ></TextField>
       <Flex
         justifyContent="space-between"
