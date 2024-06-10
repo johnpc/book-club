@@ -1,6 +1,6 @@
 import { Schema } from "@/amplify/data/resource";
 import { generateServerClientUsingReqRes } from "@aws-amplify/adapter-nextjs/api";
-import config from "@/amplifyconfiguration.json";
+import config from "@/amplify_outputs.json";
 import {
   fetchAuthSession,
   fetchUserAttributes,
@@ -10,7 +10,7 @@ import { AmplifyServer } from "aws-amplify/adapter-core";
 
 export const getOrCreateProfile = async (
   contextSpec: AmplifyServer.ContextSpec,
-): Promise<Schema["Profile"]> => {
+): Promise<Schema["Profile"]["type"]> => {
   const session = await fetchAuthSession(contextSpec);
   const user = await getCurrentUser(contextSpec);
   const userAttributes = await fetchUserAttributes(contextSpec);
@@ -49,7 +49,7 @@ export const getOrCreateProfile = async (
       error: createdProfile.errors,
     });
 
-    return createdProfile.data;
+    return createdProfile.data as unknown as Schema["Profile"]["type"];
   } catch (e) {
     console.log(e);
     console.log({ message: (e as any).message });

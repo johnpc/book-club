@@ -9,7 +9,7 @@ const client = generateClient<Schema>();
 
 export default function EditPost() {
   const router = useRouter();
-  const [post, setPost] = React.useState<Schema["Post"]>();
+  const [post, setPost] = React.useState<Schema["Post"]["type"]>();
   const [user, setUser] = React.useState<AuthUser>();
   React.useEffect(() => {
     const setup = async () => {
@@ -17,7 +17,7 @@ export default function EditPost() {
       const postResponse = await client.models.Post.get({
         id: router.query.id as string,
       });
-      setPost(postResponse.data);
+      setPost(postResponse.data!);
       const user = await getCurrentUser();
       setUser(user);
     };

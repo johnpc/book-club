@@ -8,14 +8,14 @@ const client = generateClient<Schema>();
 
 const PostId = () => {
   const router = useRouter();
-  const [post, setPost] = React.useState<Schema["Post"]>();
+  const [post, setPost] = React.useState<Schema["Post"]["type"]>();
   React.useEffect(() => {
     const setup = async () => {
       if (!router.isReady) return;
       const postResponse = await client.models.Post.get({
         id: router.query.id as string,
       });
-      setPost(postResponse.data);
+      setPost(postResponse.data!);
     };
     setup();
   }, [router.isReady, post?.id]);

@@ -22,14 +22,14 @@ import { Box } from "@mui/material";
 import { useCookies } from "react-cookie";
 const client = generateClient<Schema>();
 
-export default function Poll({ poll }: { poll: Schema["Poll"] }) {
-  const [options, setOptions] = React.useState<Schema["BookOption"][]>([]);
+export default function Poll({ poll }: { poll: Schema["Poll"]["type"] }) {
+  const [options, setOptions] = React.useState<Schema["BookOption"]["type"][]>([]);
   const [cookies, setCookie, removeCookie] = useCookies();
   const [selectedOption, setSelectedOption] =
-    React.useState<Schema["BookOption"]>();
+    React.useState<Schema["BookOption"]["type"]>();
   const optionsRef = useRef<HTMLInputElement[]>([]);
 
-  const sortOptions = (a: Schema["BookOption"], b: Schema["BookOption"]) =>
+  const sortOptions = (a: Schema["BookOption"]["type"], b: Schema["BookOption"]["type"]) =>
     new Date(a.voteCount).getTime() < new Date(b.voteCount).getTime() ? 1 : -1;
   React.useEffect(() => {
     const setup = async () => {
@@ -55,7 +55,7 @@ export default function Poll({ poll }: { poll: Schema["Poll"] }) {
     return () => sub.unsubscribe();
   }, [poll?.id]);
 
-  const onRadioChange = (option: Schema["BookOption"]) => {
+  const onRadioChange = (option: Schema["BookOption"]["type"]) => {
     setSelectedOption(option);
   };
 

@@ -22,11 +22,12 @@ import { CircularProgress } from "@mui/joy";
 import PostCreateForm from "@/ui-components/PostCreateForm";
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/router";
+import { Link } from "@aws-amplify/ui-react";
 const client = generateClient<Schema>();
 
 export default function Profile() {
   const router = useRouter();
-  const [profile, setProfile] = React.useState<Schema["Profile"]>();
+  const [profile, setProfile] = React.useState<Schema["Profile"]["type"]>();
   const [isEditingImage, setIsEditingImage] = React.useState<boolean>();
   const [isUpdating, setIsUpdating] = React.useState<boolean>();
   const nameRef = React.useRef<HTMLInputElement>();
@@ -56,7 +57,7 @@ export default function Profile() {
       name: profile.name,
       ...updatedFields,
     });
-    setProfile(updatedProfile.data);
+    setProfile(updatedProfile.data!);
     setIsUpdating(false);
     setIsEditingImage(false);
   };
@@ -83,6 +84,7 @@ export default function Profile() {
   return (
     <>
       <Button onClick={() => logOut()}>Log Out</Button>
+      <Link href="/polls/create">Create Poll</Link>
       <Box sx={{ flex: 1, width: "100%" }}>
         <Stack
           spacing={4}
@@ -118,19 +120,6 @@ export default function Profile() {
                   />
                 ) : (
                   <>
-                    <AspectRatio
-                      ratio="1"
-                      maxHeight={200}
-                      sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
-                    >
-                      <StorageImage
-                        alt={profile?.email}
-                        imgKey={profile?.avatarKey!}
-                        accessLevel="guest"
-                        fallbackSrc="https://fdocizdzprkfeigbnlxy.supabase.co/storage/v1/object/public/arbor-eats-app-files/missing-avatar.png"
-                      />
-                      ;
-                    </AspectRatio>
                     <IconButton
                       aria-label="upload new picture"
                       size="sm"

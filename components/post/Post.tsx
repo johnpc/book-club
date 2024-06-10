@@ -12,7 +12,7 @@ export default function Post({
   post,
   showPostLink,
 }: {
-  post: Schema["Post"];
+  post: Schema["Post"]["type"];
   showPostLink: boolean;
 }) {
   const [user, setUser] = React.useState<AuthUser>();
