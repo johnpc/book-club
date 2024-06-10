@@ -85,6 +85,7 @@ export default function Profile() {
     <>
       <Button onClick={() => logOut()}>Log Out</Button>
       <Link href="/polls/create">Create Poll</Link>
+      <Link href="/polls">List Polls</Link>
       <Box sx={{ flex: 1, width: "100%" }}>
         <Stack
           spacing={4}
