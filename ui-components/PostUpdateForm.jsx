@@ -1,7 +1,7 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField, TextAreaField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getPost } from "./graphql/queries";
@@ -167,7 +167,7 @@ export default function PostUpdateForm(props) {
         hasError={errors.date?.hasError}
         {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <TextField
+      <TextAreaField
         label="Description"
         isRequired={true}
         isReadOnly={false}
@@ -192,7 +192,7 @@ export default function PostUpdateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextField>
+      ></TextAreaField>
       <TextField
         label="Title"
         isRequired={true}
