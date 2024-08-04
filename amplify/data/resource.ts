@@ -27,7 +27,7 @@ const schema = a.schema({
     .authorization((allow) => [
       allow.custom(),
       allow.owner(),
-      allow.authenticated("identityPool").to(["read", "create"]),
+      allow.authenticated("identityPool").to(["read", "create", "update"]),
       allow.guest().to(["read"]),
     ]),
   Poll: a
