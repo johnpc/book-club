@@ -9,6 +9,7 @@ import { BookInfo, searchBooks } from "@/utils/searchBooks";
 import BookSummary from "../poll/BookSummary";
 import Poll from "../poll/Poll";
 import { generateClient } from "aws-amplify/api";
+import { formatDateToNewYork } from "@/utils/dateUtils";
 
 const client = generateClient<Schema>();
 
@@ -68,7 +69,7 @@ export default function Post({
         <div>
           <Typography level="title-lg">{post?.title}</Typography>
           <Typography level="body-sm">
-            {new Date(post?.date ?? "").toDateString()}
+            {formatDateToNewYork(post?.date)}
           </Typography>
           {showPostLink ? (
             <>

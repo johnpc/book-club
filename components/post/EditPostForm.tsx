@@ -1,35 +1,31 @@
-import React, { useState } from 'react';
-import { Button, Box, Stack, Typography, FormControl, FormLabel, Switch } from '@mui/joy';
-import { FormControlLabel, TextField, TextareaAutosize } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, Box, Stack, Typography, FormControl, FormLabel, Divider } from '@mui/joy';
+import { FormControlLabel, TextField, TextareaAutosize, Switch } from '@mui/material';
 import { Schema } from '@/amplify/data/resource';
 import { generateClient } from 'aws-amplify/api';
 import { useRouter } from 'next/router';
-import { getTodayInNewYork } from '@/utils/dateUtils';
+import { formatDateToNewYork } from '@/utils/dateUtils';
 
 const client = generateClient<Schema>();
 
-interface CreatePostFormProps {
+interface EditPostFormProps {
+  postId: string;
   userId?: string;
   onSuccess?: () => void;
 }
 
-export default function CreatePostForm({ userId, onSuccess }: CreatePostFormProps) {
+export default function EditPostForm({ postId, userId, onSuccess }: EditPostFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [createPoll, setCreatePoll] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasPoll, setHasPoll] = useState(false);
+  const [pollData, setPollData] = useState<Schema["Poll"]["type"] | null>(null);
   
   // Form state
   const [formState, setFormState] = useState({
     title: '',
-    date: getTodayInNewYork(), // Today's date in New York time zone
-    description: `Join us for our next book club meeting!
-
-Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
- 
-username: <your first name>
-password: G3tthejelly!
-
-Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
+    date: '',
+    description: '',
     eventUrl: '',
     epubUrl: 'https://ebooks.jpc.io',
     audiobookUrl: 'https://audiobooks.jpc.io',
@@ -37,6 +33,51 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
 
   // Form validation state
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Load post data
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!postId) return;
+      
+      setIsLoading(true);
+      try {
+        // Get post data
+        const postResponse = await client.models.Post.get({ id: postId });
+        
+        if (postResponse.data) {
+          const post = postResponse.data;
+          setFormState({
+            title: post.title || '',
+            date: post.date || '',
+            description: post.description || '',
+            eventUrl: post.eventUrl || '',
+            epubUrl: post.epubUrl || 'https://ebooks.jpc.io',
+            audiobookUrl: post.audiobookUrl || 'https://audiobooks.jpc.io',
+          });
+          
+          // Check if post has an associated poll
+          const pollsResponse = await client.models.Poll.list({
+            filter: {
+              postPollId: {
+                eq: postId
+              }
+            }
+          });
+          
+          if (pollsResponse.data && pollsResponse.data.length > 0) {
+            setHasPoll(true);
+            setPollData(pollsResponse.data[0]);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchPost();
+  }, [postId]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -47,6 +88,10 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
     
     if (!formState.date) {
       newErrors.date = 'Date is required';
+    }
+    
+    if (!formState.description.trim()) {
+      newErrors.description = 'Description is required';
     }
     
     setErrors(newErrors);
@@ -79,57 +124,51 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
     setIsSubmitting(true);
     
     try {
-      // First create the post
-      const postResponse = await client.models.Post.create({
+      // Update the post
+      await client.models.Post.update({
+        id: postId,
         title: formState.title,
         date: formState.date,
         description: formState.description,
         eventUrl: formState.eventUrl || undefined,
         epubUrl: formState.epubUrl,
         audiobookUrl: formState.audiobookUrl,
-        owner: userId
       });
       
-      const postId = postResponse.data?.id;
-      
-      // If createPoll is checked, create a poll and associate it with the post
-      if (createPoll && postId) {
+      // Create a poll if needed and one doesn't exist
+      if (!hasPoll && !pollData) {
         const pollResponse = await client.models.Poll.create({
           prompt: `Let's choose a book for next month!`,
           postPollId: postId
         });
+        
+        if (pollResponse.data) {
+          setPollData(pollResponse.data);
+          setHasPoll(true);
+        }
       }
-      
-      // Reset form
-      setFormState({
-        title: '',
-        date: getTodayInNewYork(),
-        description: `Join us for our next book club meeting!
-
-Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
- 
-username: <your first name>
-password: G3tthejelly!
-
-Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
-        eventUrl: '',
-        epubUrl: 'https://ebooks.jpc.io',
-        audiobookUrl: 'https://audiobooks.jpc.io',
-      });
       
       // Call onSuccess callback if provided
       if (onSuccess) {
         onSuccess();
       } else {
-        // Navigate to home page
-        router.push('/');
+        // Navigate to post view page
+        router.push(`/posts/${postId}`);
       }
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('Error updating post:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ textAlign: 'center', p: 4 }}>
+        <Typography level="h4">Loading post data...</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -144,7 +183,7 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
         boxShadow: 'sm',
       }}
     >
-      <Typography level="h4" mb={3}>Create New Book Club Post</Typography>
+      <Typography level="h4" mb={3}>Edit Book Club Post</Typography>
       
       <Stack spacing={3}>
         <FormControl error={!!errors.title}>
@@ -177,23 +216,30 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
           />
         </FormControl>
         
-        <FormControl>
-          <FormLabel>Description</FormLabel>
+        <FormControl error={!!errors.description}>
+          <FormLabel>Description *</FormLabel>
           <TextareaAutosize
             name="description"
             value={formState.description}
             onChange={handleInputChange}
-            minRows={3}
+            minRows={6}
             style={{
               width: '100%',
               padding: '8px 12px',
               borderRadius: '8px',
-              borderColor: '#ccc',
+              borderColor: errors.description ? '#d32f2f' : '#ccc',
               fontFamily: 'inherit',
               fontSize: 'inherit',
             }}
           />
+          {errors.description && (
+            <Typography level="body-xs" color="danger" sx={{ mt: 0.5 }}>
+              {errors.description}
+            </Typography>
+          )}
         </FormControl>
+        
+        <Divider sx={{ my: 2 }}>Additional Information</Divider>
         
         <FormControl>
           <FormLabel>Event URL (optional)</FormLabel>
@@ -229,22 +275,35 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
           />
         </FormControl>
         
-        <FormControlLabel
-          control={
-            <Switch
-              checked={createPoll}
-              onChange={(e) => setCreatePoll(e.target.checked)}
-            />
-          }
-          label="Create poll for next book"
-        />
+        {!hasPoll && (
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hasPoll}
+                onChange={(e) => setHasPoll(e.target.checked)}
+              />
+            }
+            label="Create poll for next book"
+          />
+        )}
+        
+        {hasPoll && (
+          <Box sx={{ p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+            <Typography level="title-sm">
+              This post has an associated poll
+            </Typography>
+            <Typography level="body-sm">
+              Poll prompt: {pollData?.prompt || "Let's choose a book for next month!"}
+            </Typography>
+          </Box>
+        )}
         
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 2 }}>
           <Button
             type="button"
             variant="outlined"
             color="neutral"
-            onClick={() => router.push('/')}
+            onClick={() => router.push(`/posts/${postId}`)}
           >
             Cancel
           </Button>
@@ -252,7 +311,7 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Creating...' : 'Create Post'}
+            {isSubmitting ? 'Saving...' : 'Save Changes'}
           </Button>
         </Box>
       </Stack>

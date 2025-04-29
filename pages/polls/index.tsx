@@ -7,11 +7,9 @@ import { generateClient } from "aws-amplify/api";
 import PollCreateForm from "@/ui-components/PollCreateForm";
 import Poll from "@/components/poll/Poll";
 import Head from "next/head";
-const client = generateClient<Schema>({
-  authMode: "iam",
-});
+const client = generateClient<Schema>();
 
-export default function Home() {
+export default function PollsIndex() {
   const [polls, setPolls] = React.useState<Schema["Poll"]["type"][]>([]);
   React.useEffect(() => {
     const setup = async () => {

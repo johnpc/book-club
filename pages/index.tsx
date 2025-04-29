@@ -9,9 +9,12 @@ const client = generateClient<Schema>();
 export default function Home() {
   const [posts, setPosts] = React.useState<Schema["Post"]["type"][]>([]);
   const loadPosts = async (posts: Schema["Post"]["type"][]) => {
-    posts.sort((a, b) =>
-      new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1,
-    );
+    // Sort posts by date in New York time zone
+    posts.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime(); // Most recent first
+    });
     setPosts(posts);
   };
   React.useEffect(() => {
