@@ -1,5 +1,4 @@
 import * as React from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Divider from "@mui/joy/Divider";
@@ -12,17 +11,22 @@ import Typography from "@mui/joy/Typography";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
 import CardOverflow from "@mui/joy/CardOverflow";
+import Tab from "@mui/joy/Tab";
+import TabList from "@mui/joy/TabList";
+import Tabs from "@mui/joy/Tabs";
+import TabPanel from "@mui/joy/TabPanel";
 
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import { StorageImage, StorageManager } from "@aws-amplify/ui-react-storage";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
 import { Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
 import { CircularProgress } from "@mui/joy";
-import PostCreateForm from "@/ui-components/PostCreateForm";
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/router";
 import { Link } from "@aws-amplify/ui-react";
+import CreatePostForm from "@/components/post/CreatePostForm";
+
 const client = generateClient<Schema>();
 
 export default function Profile() {
@@ -30,7 +34,9 @@ export default function Profile() {
   const [profile, setProfile] = React.useState<Schema["Profile"]["type"]>();
   const [isEditingImage, setIsEditingImage] = React.useState<boolean>();
   const [isUpdating, setIsUpdating] = React.useState<boolean>();
+  const [activeTab, setActiveTab] = React.useState(0);
   const nameRef = React.useRef<HTMLInputElement>();
+  
   React.useEffect(() => {
     const fetchProfile = async () => {
       const response = await fetch("/api/users/me");
@@ -81,22 +87,30 @@ export default function Profile() {
     router.push("/sign-in");
   };
 
+  const handlePostCreationSuccess = () => {
+    // Navigate to home page or show success message
+    router.push("/");
+  };
+
   return (
-    <>
-      <Button onClick={() => logOut()}>Log Out</Button>
-      <Link href="/polls/create">Create Poll</Link>
-      <Link href="/polls">List Polls</Link>
-      <Box sx={{ flex: 1, width: "100%" }}>
-        <Stack
-          spacing={4}
-          sx={{
-            display: "flex",
-            maxWidth: "800px",
-            mx: "auto",
-            px: { xs: 2, md: 6 },
-            py: { xs: 2, md: 3 },
-          }}
-        >
+    <Box sx={{ py: 2, px: { xs: 2, md: 6 } }}>
+      <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
+        <Button onClick={() => logOut()} variant="outlined">Log Out</Button>
+        <Button component={Link} href="/polls/create" variant="outlined">Create Poll</Button>
+        <Button component={Link} href="/polls" variant="outlined">List Polls</Button>
+      </Stack>
+      
+      <Tabs
+        value={activeTab}
+        onChange={(_, value) => setActiveTab(value as number)}
+        sx={{ borderRadius: 'lg', mb: 4 }}
+      >
+        <TabList>
+          <Tab>Profile</Tab>
+          <Tab>Create Post</Tab>
+        </TabList>
+        
+        <TabPanel value={0} sx={{ p: 0, pt: 3 }}>
           <Card>
             <Box sx={{ mb: 1 }}>
               <Typography level="title-md">Personal info</Typography>
@@ -195,26 +209,15 @@ export default function Profile() {
               </CardActions>
             </CardOverflow>
           </Card>
-        </Stack>
-      </Box>
-      <>
-        <h1>Create a post</h1>
-        <PostCreateForm
-          overrides={{
-            owner: {
-              disabled: true,
-              isRequired: false,
-              isReadOnly: true,
-            },
-          }}
-          onSubmit={(fields) => {
-            return {
-              ...fields,
-              owner: profile?.userId,
-            };
-          }}
-        />
-      </>
-    </>
+        </TabPanel>
+        
+        <TabPanel value={1} sx={{ p: 0, pt: 3 }}>
+          <CreatePostForm 
+            userId={profile?.userId}
+            onSuccess={handlePostCreationSuccess}
+          />
+        </TabPanel>
+      </Tabs>
+    </Box>
   );
 }

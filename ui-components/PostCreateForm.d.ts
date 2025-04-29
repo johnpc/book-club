@@ -22,11 +22,17 @@ export declare type PostCreateFormInputValues = {
   date?: string;
   description?: string;
   title?: string;
+  eventUrl?: string;
+  epubUrl?: string;
+  audiobookUrl?: string;
 };
 export declare type PostCreateFormValidationValues = {
   date?: ValidationFunction<string>;
   description?: ValidationFunction<string>;
   title?: ValidationFunction<string>;
+  eventUrl?: ValidationFunction<string>;
+  epubUrl?: ValidationFunction<string>;
+  audiobookUrl?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> &
   React.DOMAttributes<HTMLDivElement>;
@@ -35,6 +41,9 @@ export declare type PostCreateFormOverridesProps = {
   date?: PrimitiveOverrideProps<TextFieldProps>;
   description?: PrimitiveOverrideProps<TextFieldProps>;
   title?: PrimitiveOverrideProps<TextFieldProps>;
+  eventUrl?: PrimitiveOverrideProps<TextFieldProps>;
+  epubUrl?: PrimitiveOverrideProps<TextFieldProps>;
+  audiobookUrl?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PostCreateFormProps = React.PropsWithChildren<
   {
