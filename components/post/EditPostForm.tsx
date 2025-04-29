@@ -17,7 +17,7 @@ import {
 import { Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
 import { useRouter } from "next/router";
-import { formatDateToNewYork } from "@/utils/dateUtils";
+import { formatDateToNewYork, formatDateForInput, normalizeDateForStorage } from "@/utils/dateUtils";
 
 const client = generateClient<Schema>();
 
@@ -65,7 +65,7 @@ export default function EditPostForm({
           const post = postResponse.data;
           setFormState({
             title: post.title || "",
-            date: post.date || "",
+            date: formatDateForInput(post.date) || "",
             description: post.description || "",
             eventUrl: post.eventUrl || "",
             epubUrl: post.epubUrl || "https://ebooks.jpc.io",
@@ -147,7 +147,7 @@ export default function EditPostForm({
       await client.models.Post.update({
         id: postId,
         title: formState.title,
-        date: formState.date,
+        date: normalizeDateForStorage(formState.date),
         description: formState.description,
         eventUrl: formState.eventUrl || undefined,
         epubUrl: formState.epubUrl,

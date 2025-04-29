@@ -86,3 +86,48 @@ export function convertToNewYorkTime(date: Date | string): Date {
   // Create a new date with the New York time components
   return new Date(year, month, day, hour, minute, second);
 }
+
+/**
+ * Normalize a date string to ensure it's stored consistently
+ * This function ensures that dates are stored as YYYY-MM-DD format
+ * without any time component, which prevents timezone issues
+ * 
+ * @param dateString - Date string in any format
+ * @returns Date string in YYYY-MM-DD format
+ */
+export function normalizeDateForStorage(dateString: string): string {
+  // If the date is already in YYYY-MM-DD format, return it as is
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  // Otherwise, parse the date and format it as YYYY-MM-DD
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Format a date for display in a form input
+ * @param dateString - ISO date string or any valid date input
+ * @returns Date string in YYYY-MM-DD format for form inputs
+ */
+export function formatDateForInput(dateString: string | undefined): string {
+  if (!dateString) return getTodayInNewYork();
+  
+  // If the date is already in YYYY-MM-DD format, return it as is
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  // Otherwise, parse the date and format it as YYYY-MM-DD
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+}

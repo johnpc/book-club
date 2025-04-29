@@ -12,7 +12,7 @@ import { FormControlLabel, TextField, TextareaAutosize } from "@mui/material";
 import { Schema } from "@/amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
 import { useRouter } from "next/router";
-import { getTodayInNewYork } from "@/utils/dateUtils";
+import { getTodayInNewYork, normalizeDateForStorage } from "@/utils/dateUtils";
 
 const client = generateClient<Schema>();
 
@@ -36,9 +36,9 @@ export default function CreatePostForm({
     description: `Join us for our next book club meeting!
 
 Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
- 
-username: <your first name>
-password: G3tthejelly!
+
+* username: \<your first name\>
+* password: G3tthejelly!
 
 Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
     eventUrl: "",
@@ -95,7 +95,7 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
       // First create the post
       const postResponse = await client.models.Post.create({
         title: formState.title,
-        date: formState.date,
+        date: normalizeDateForStorage(formState.date),
         description: formState.description,
         eventUrl: formState.eventUrl || undefined,
         epubUrl: formState.epubUrl,
@@ -120,9 +120,9 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
         description: `Join us for our next book club meeting!
 
 Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
- 
-username: <your first name>
-password: G3tthejelly!
+
+* username: \<your first name\>
+* password: G3tthejelly!
 
 Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
         eventUrl: "",
