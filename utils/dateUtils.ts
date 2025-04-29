@@ -16,7 +16,7 @@ export function formatDateToNewYork(
 
   // Format the date in New York time zone
   return date.toLocaleDateString("en-US", {
-    timeZone: "America/New_York",
+    timeZone: "UTC",
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -33,7 +33,7 @@ export function getTodayInNewYork(): string {
 
   // Get the date components in New York time zone
   const options: Intl.DateTimeFormatOptions = {
-    timeZone: "America/New_York",
+    timeZone: "UTC",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -53,7 +53,7 @@ export function convertToNewYorkTime(date: Date | string): Date {
 
   // Create a formatter that will give us the time in New York
   const formatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York",
+    timeZone: "UTC",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -91,7 +91,7 @@ export function convertToNewYorkTime(date: Date | string): Date {
  * Normalize a date string to ensure it's stored consistently
  * This function ensures that dates are stored as YYYY-MM-DD format
  * without any time component, which prevents timezone issues
- * 
+ *
  * @param dateString - Date string in any format
  * @returns Date string in YYYY-MM-DD format
  */
@@ -100,13 +100,13 @@ export function normalizeDateForStorage(dateString: string): string {
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
     return dateString;
   }
-  
+
   // Otherwise, parse the date and format it as YYYY-MM-DD
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  
+
   return `${year}-${month}-${day}`;
 }
 
@@ -117,17 +117,17 @@ export function normalizeDateForStorage(dateString: string): string {
  */
 export function formatDateForInput(dateString: string | undefined): string {
   if (!dateString) return getTodayInNewYork();
-  
+
   // If the date is already in YYYY-MM-DD format, return it as is
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
     return dateString;
   }
-  
+
   // Otherwise, parse the date and format it as YYYY-MM-DD
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  
+
   return `${year}-${month}-${day}`;
 }

@@ -105,7 +105,7 @@ export default function Post({
           name={post?.title}
           startDate={post?.date}
           options={["Apple", "Google", "iCal"]}
-          timeZone="America/New_York"
+          timeZone="UTC"
           location={post?.eventUrl || ""}
         ></AddToCalendarButton>
 
