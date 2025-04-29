@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextAreaField, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  TextAreaField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createPost } from "./graphql/mutations";
@@ -26,13 +32,17 @@ export default function PostCreateForm(props) {
     audiobookUrl: "https://audiobooks.jpc.io",
   };
   const [date, setDate] = React.useState(initialValues.date);
-  const [description, setDescription] = React.useState(initialValues.description);
+  const [description, setDescription] = React.useState(
+    initialValues.description,
+  );
   const [title, setTitle] = React.useState(initialValues.title);
   const [eventUrl, setEventUrl] = React.useState(initialValues.eventUrl);
   const [epubUrl, setEpubUrl] = React.useState(initialValues.epubUrl);
-  const [audiobookUrl, setAudiobookUrl] = React.useState(initialValues.audiobookUrl);
+  const [audiobookUrl, setAudiobookUrl] = React.useState(
+    initialValues.audiobookUrl,
+  );
   const [errors, setErrors] = React.useState({});
-  
+
   const resetStateValues = () => {
     setDate(initialValues.date);
     setDescription(initialValues.description);
@@ -42,7 +52,7 @@ export default function PostCreateForm(props) {
     setAudiobookUrl(initialValues.audiobookUrl);
     setErrors({});
   };
-  
+
   const validations = {
     date: [{ type: "Required" }],
     description: [{ type: "Required" }],
@@ -51,11 +61,11 @@ export default function PostCreateForm(props) {
     epubUrl: [],
     audiobookUrl: [],
   };
-  
+
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue
+    getDisplayValue,
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -69,7 +79,7 @@ export default function PostCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  
+
   return (
     <Grid
       as="form"
@@ -91,16 +101,16 @@ export default function PostCreateForm(props) {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item)
-                )
+                  runValidationTasks(fieldName, item),
+                ),
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName])
+              runValidationTasks(fieldName, modelFields[fieldName]),
             );
             return promises;
-          }, [])
+          }, []),
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;
@@ -167,7 +177,7 @@ export default function PostCreateForm(props) {
         hasError={errors.title?.hasError}
         {...getOverrideProps(overrides, "title")}
       ></TextField>
-      
+
       <TextField
         label="Date"
         isRequired={true}
@@ -198,7 +208,7 @@ export default function PostCreateForm(props) {
         hasError={errors.date?.hasError}
         {...getOverrideProps(overrides, "date")}
       ></TextField>
-      
+
       <TextAreaField
         label="Description"
         isRequired={true}
@@ -228,7 +238,7 @@ export default function PostCreateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextAreaField>
-      
+
       <TextField
         label="Event URL (optional)"
         isRequired={false}
@@ -258,7 +268,7 @@ export default function PostCreateForm(props) {
         hasError={errors.eventUrl?.hasError}
         {...getOverrideProps(overrides, "eventUrl")}
       ></TextField>
-      
+
       <TextField
         label="eBook URL"
         isRequired={false}
@@ -288,7 +298,7 @@ export default function PostCreateForm(props) {
         hasError={errors.epubUrl?.hasError}
         {...getOverrideProps(overrides, "epubUrl")}
       ></TextField>
-      
+
       <TextField
         label="Audiobook URL"
         isRequired={false}
@@ -318,7 +328,7 @@ export default function PostCreateForm(props) {
         hasError={errors.audiobookUrl?.hasError}
         {...getOverrideProps(overrides, "audiobookUrl")}
       ></TextField>
-      
+
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

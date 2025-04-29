@@ -20,7 +20,12 @@ const schema = a.schema({
   Post: a
     .model({
       date: a.date().required(),
-      description: a.string().required().default("Join us for our next book club meeting! Sign in to audiobookshelf (https://audiobooks.jpc.io) to access the audiobook, or calibre-web (https://ebooks.jpc.io) to access the epub. Both sites use credentials: username: <your first name>, password: G3tthejelly! Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off."),
+      description: a
+        .string()
+        .required()
+        .default(
+          "Join us for our next book club meeting! Sign in to audiobookshelf (https://audiobooks.jpc.io) to access the audiobook, or calibre-web (https://ebooks.jpc.io) to access the epub. Both sites use credentials: username: <your first name>, password: G3tthejelly! Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.",
+        ),
       title: a.string().required(),
       owner: a.string(),
       eventUrl: a.string(),

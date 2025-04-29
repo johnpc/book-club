@@ -33,15 +33,15 @@ export default function BookOptionUpdateForm(props) {
   const [title, setTitle] = React.useState(initialValues.title);
   const [author, setAuthor] = React.useState(initialValues.author);
   const [publishDate, setPublishDate] = React.useState(
-    initialValues.publishDate
+    initialValues.publishDate,
   );
   const [description, setDescription] = React.useState(
-    initialValues.description
+    initialValues.description,
   );
   const [pageCount, setPageCount] = React.useState(initialValues.pageCount);
   const [imageUrl, setImageUrl] = React.useState(initialValues.imageUrl);
   const [googleBooksUrl, setGoogleBooksUrl] = React.useState(
-    initialValues.googleBooksUrl
+    initialValues.googleBooksUrl,
   );
   const [price, setPrice] = React.useState(initialValues.price);
   const [voteCount, setVoteCount] = React.useState(initialValues.voteCount);
@@ -92,7 +92,7 @@ export default function BookOptionUpdateForm(props) {
   const runValidationTasks = async (
     fieldName,
     currentValue,
-    getDisplayValue
+    getDisplayValue,
   ) => {
     const value =
       currentValue && getDisplayValue
@@ -130,16 +130,16 @@ export default function BookOptionUpdateForm(props) {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item)
-                )
+                  runValidationTasks(fieldName, item),
+                ),
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName])
+              runValidationTasks(fieldName, modelFields[fieldName]),
             );
             return promises;
-          }, [])
+          }, []),
         );
         if (validationResponses.some((r) => r.hasError)) {
           return;

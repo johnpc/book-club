@@ -1,5 +1,13 @@
 import { Schema } from "@/amplify/data/resource";
-import { Button, Card, CardContent, Typography, Stack, Link as JoyLink, Divider } from "@mui/joy";
+import {
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+  Link as JoyLink,
+  Divider,
+} from "@mui/joy";
 import Markdown from "../Markdown";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -33,10 +41,10 @@ export default function Post({
       } catch (e) {
         console.warn(e);
       }
-      
+
       const searchResults = await searchBooks(post.title);
       setBookInfo(searchResults[0]);
-      
+
       // Load poll data if this post has an associated poll
       if (post?.id) {
         setIsLoadingPoll(true);
@@ -45,11 +53,11 @@ export default function Post({
           const pollsResponse = await client.models.Poll.list({
             filter: {
               postPollId: {
-                eq: post.id
-              }
-            }
+                eq: post.id,
+              },
+            },
           });
-          
+
           if (pollsResponse.data && pollsResponse.data.length > 0) {
             setPollData(pollsResponse.data[0]);
           }
@@ -91,7 +99,7 @@ export default function Post({
             ""
           )}
         </div>
-        
+
         {/* Event calendar button */}
         <AddToCalendarButton
           name={post?.title}
@@ -109,18 +117,18 @@ export default function Post({
         ) : (
           ""
         )}
-        
+
         {/* Book info */}
         {bookInfo ? <BookSummary bookInfo={bookInfo} /> : ""}
-        
+
         {/* Book links */}
         {(post?.epubUrl || post?.audiobookUrl) && (
           <Stack direction="row" spacing={2} sx={{ mt: 2, mb: 2 }}>
             {post?.epubUrl && (
-              <Button 
+              <Button
                 component={JoyLink}
-                href={post.epubUrl} 
-                target="_blank" 
+                href={post.epubUrl}
+                target="_blank"
                 variant="outlined"
                 size="sm"
               >
@@ -128,10 +136,10 @@ export default function Post({
               </Button>
             )}
             {post?.audiobookUrl && (
-              <Button 
+              <Button
                 component={JoyLink}
-                href={post.audiobookUrl} 
-                target="_blank" 
+                href={post.audiobookUrl}
+                target="_blank"
                 variant="outlined"
                 size="sm"
               >
@@ -140,13 +148,13 @@ export default function Post({
             )}
           </Stack>
         )}
-        
+
         {/* Event link */}
         {post?.eventUrl && (
-          <Button 
+          <Button
             component={JoyLink}
-            href={post.eventUrl} 
-            target="_blank" 
+            href={post.eventUrl}
+            target="_blank"
             variant="solid"
             size="md"
             sx={{ mb: 2 }}
@@ -154,13 +162,13 @@ export default function Post({
             Join Event
           </Button>
         )}
-        
+
         {/* Inline Poll */}
         {pollData && (
           <>
             <Divider sx={{ my: 3 }}>Book Poll</Divider>
             {isLoadingPoll ? (
-              <Typography level="body-sm" sx={{ textAlign: 'center', py: 2 }}>
+              <Typography level="body-sm" sx={{ textAlign: "center", py: 2 }}>
                 Loading poll...
               </Typography>
             ) : (

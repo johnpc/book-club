@@ -18,24 +18,25 @@ export default function EditPost() {
   React.useEffect(() => {
     const checkAuth = async () => {
       if (!router.isReady) return;
-      
+
       setIsLoading(true);
       try {
         // Get current user
         const currentUser = await getCurrentUser();
         setUser(currentUser);
-        
+
         // Get post to check ownership
         const postResponse = await client.models.Post.get({
           id: router.query.id as string,
         });
-        
+
         // Check if user is authorized to edit this post
         // Either they are the owner or they have admin email
         if (postResponse.data) {
           const isOwner = postResponse.data.owner === currentUser.userId;
-          const isAdmin = currentUser.signInDetails?.loginId === "john@johncorser.com";
-          
+          const isAdmin =
+            currentUser.signInDetails?.loginId === "john@johncorser.com";
+
           setIsAuthorized(isOwner || isAdmin);
         }
       } catch (error) {
@@ -44,7 +45,7 @@ export default function EditPost() {
         setIsLoading(false);
       }
     };
-    
+
     checkAuth();
   }, [router.isReady, router.query.id]);
 
@@ -54,7 +55,7 @@ export default function EditPost() {
 
   if (isLoading) {
     return (
-      <Box sx={{ textAlign: 'center', p: 4 }}>
+      <Box sx={{ textAlign: "center", p: 4 }}>
         <Typography level="h4">Loading...</Typography>
       </Box>
     );
@@ -62,7 +63,7 @@ export default function EditPost() {
 
   if (!isAuthorized) {
     return (
-      <Box sx={{ textAlign: 'center', p: 4 }}>
+      <Box sx={{ textAlign: "center", p: 4 }}>
         <Typography level="h4">Not authorized</Typography>
         <Typography level="body-md" sx={{ mt: 2 }}>
           You don't have permission to edit this post.
@@ -73,8 +74,8 @@ export default function EditPost() {
 
   return (
     <Box sx={{ p: 2 }}>
-      <EditPostForm 
-        postId={id as string} 
+      <EditPostForm
+        postId={id as string}
         userId={user?.userId}
         onSuccess={handleEditSuccess}
       />

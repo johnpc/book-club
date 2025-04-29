@@ -36,7 +36,7 @@ export default function Profile() {
   const [isUpdating, setIsUpdating] = React.useState<boolean>();
   const [activeTab, setActiveTab] = React.useState(0);
   const nameRef = React.useRef<HTMLInputElement>();
-  
+
   React.useEffect(() => {
     const fetchProfile = async () => {
       const response = await fetch("/api/users/me");
@@ -95,21 +95,27 @@ export default function Profile() {
   return (
     <Box sx={{ py: 2, px: { xs: 2, md: 6 } }}>
       <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
-        <Button onClick={() => logOut()} variant="outlined">Log Out</Button>
-        <Button component={Link} href="/polls/create" variant="outlined">Create Poll</Button>
-        <Button component={Link} href="/polls" variant="outlined">List Polls</Button>
+        <Button onClick={() => logOut()} variant="outlined">
+          Log Out
+        </Button>
+        <Button component={Link} href="/polls/create" variant="outlined">
+          Create Poll
+        </Button>
+        <Button component={Link} href="/polls" variant="outlined">
+          List Polls
+        </Button>
       </Stack>
-      
+
       <Tabs
         value={activeTab}
         onChange={(_, value) => setActiveTab(value as number)}
-        sx={{ borderRadius: 'lg', mb: 4 }}
+        sx={{ borderRadius: "lg", mb: 4 }}
       >
         <TabList>
           <Tab>Profile</Tab>
           <Tab>Create Post</Tab>
         </TabList>
-        
+
         <TabPanel value={0} sx={{ p: 0, pt: 3 }}>
           <Card>
             <Box sx={{ mb: 1 }}>
@@ -210,9 +216,9 @@ export default function Profile() {
             </CardOverflow>
           </Card>
         </TabPanel>
-        
+
         <TabPanel value={1} sx={{ p: 0, pt: 3 }}>
-          <CreatePostForm 
+          <CreatePostForm
             userId={profile?.userId}
             onSuccess={handlePostCreationSuccess}
           />

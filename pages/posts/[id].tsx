@@ -18,13 +18,13 @@ const PostId = () => {
   React.useEffect(() => {
     const setup = async () => {
       if (!router.isReady) return;
-      
+
       setIsLoading(true);
       try {
         const postResponse = await client.models.Post.get({
           id: router.query.id as string,
         });
-        
+
         if (postResponse.data) {
           setPost(postResponse.data);
         } else {
@@ -42,7 +42,15 @@ const PostId = () => {
 
   if (isLoading) {
     return (
-      <div style={{ margin: "auto", minWidth: "50%", maxWidth: "600px", textAlign: "center", padding: "40px" }}>
+      <div
+        style={{
+          margin: "auto",
+          minWidth: "50%",
+          maxWidth: "600px",
+          textAlign: "center",
+          padding: "40px",
+        }}
+      >
         <Typography level="body-lg">Loading post...</Typography>
       </div>
     );
@@ -50,8 +58,18 @@ const PostId = () => {
 
   if (error || !post) {
     return (
-      <div style={{ margin: "auto", minWidth: "50%", maxWidth: "600px", textAlign: "center", padding: "40px" }}>
-        <Typography level="h4" color="danger">{error || "Post not found"}</Typography>
+      <div
+        style={{
+          margin: "auto",
+          minWidth: "50%",
+          maxWidth: "600px",
+          textAlign: "center",
+          padding: "40px",
+        }}
+      >
+        <Typography level="h4" color="danger">
+          {error || "Post not found"}
+        </Typography>
         <Button component={Link} href="/" variant="outlined" sx={{ mt: 2 }}>
           Return to Home
         </Button>
@@ -75,12 +93,12 @@ const PostId = () => {
           <Typography level="h4" gutterBottom>
             Book Details
           </Typography>
-          <Button 
-            component={Link} 
-            href="/" 
-            variant="outlined" 
-            size="sm" 
-            sx={{ ml: 'auto' }}
+          <Button
+            component={Link}
+            href="/"
+            variant="outlined"
+            size="sm"
+            sx={{ ml: "auto" }}
           >
             Back to Schedule
           </Button>
