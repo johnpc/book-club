@@ -38,7 +38,7 @@ export default function CreatePostForm({
 Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
 
 * username: \<your first name\>
-* password: G3tthejelly!
+* password: getthejelly
 
 Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
     eventUrl: "",
@@ -122,7 +122,7 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
 Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
 
 * username: \<your first name\>
-* password: G3tthejelly!
+* password: getthejelly
 
 Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
         eventUrl: "",
