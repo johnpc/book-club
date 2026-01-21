@@ -35,14 +35,14 @@ export default function CreatePostForm({
     date: getTodayInNewYork(), // Today's date in New York time zone
     description: `Join us for our next book club meeting!
 
-Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
+Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [jpc-ereader](https://ereader.jpc.io) to access the epub. Both sites use credentials:
 
 * username: \<your first name\>
 * password: getthejelly
 
 Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
     eventUrl: "",
-    epubUrl: "https://ebooks.jpc.io",
+    epubUrl: "https://ereader.jpc.io",
     audiobookUrl: "https://audiobooks.jpc.io",
   });
 
@@ -119,14 +119,14 @@ Both sites are PWAs, meaning you can add them to your Home Screen from the share
         date: getTodayInNewYork(),
         description: `Join us for our next book club meeting!
 
-Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [calibre-web](https://ebooks.jpc.io) to access the epub. Both sites use credentials:
+Sign in to [audiobookshelf](https://audiobooks.jpc.io) to access the audiobook, or [jpc-ereader](https://ereader.jpc.io) to access the epub. Both sites use credentials:
 
 * username: \<your first name\>
 * password: getthejelly
 
 Both sites are PWAs, meaning you can add them to your Home Screen from the share sheet in order to remain signed in and for the best app experience to continue the book you're reading from wherever you left off.`,
         eventUrl: "",
-        epubUrl: "https://ebooks.jpc.io",
+        epubUrl: "https://ereader.jpc.io",
         audiobookUrl: "https://audiobooks.jpc.io",
       });
 

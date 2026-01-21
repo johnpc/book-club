@@ -44,7 +44,7 @@ export default function EditPostForm({
     date: "",
     description: "",
     eventUrl: "",
-    epubUrl: "https://ebooks.jpc.io",
+    epubUrl: "https://ereader.jpc.io",
     audiobookUrl: "https://audiobooks.jpc.io",
   });
 
@@ -68,7 +68,7 @@ export default function EditPostForm({
             date: formatDateForInput(post.date) || "",
             description: post.description || "",
             eventUrl: post.eventUrl || "",
-            epubUrl: post.epubUrl || "https://ebooks.jpc.io",
+            epubUrl: post.epubUrl || "https://ereader.jpc.io",
             audiobookUrl: post.audiobookUrl || "https://audiobooks.jpc.io",
           });
 
