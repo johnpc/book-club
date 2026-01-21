@@ -7,8 +7,7 @@
   },
   "overrides": {
     "glob": "10.3.10",
-    "jackspeak": "2.3.6",
-    "minimatch": "9.0.3"
+    "jackspeak": "2.3.6"
   },
   "scripts": {
     "dev": "next dev",
@@ -45,6 +44,7 @@
     "@aws-amplify/backend": "^1.0.3",
     "@aws-amplify/backend-cli": "^1.0.4",
     "@aws-amplify/plugin-types": "^1.0.0",
+    "@eslint/eslintrc": "^3.3.3",
     "@types/aws-lambda": "^8.10.130",
     "@types/node": "^20",
     "@types/react": "^18",

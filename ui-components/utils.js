@@ -90,7 +90,7 @@ export const useNavigateAction = (options) => {
         };
       default:
         return () => {
-          // eslint-disable-next-line no-console
+           
           console.warn(
             'Please provide a valid navigate type. Available types are "url", "anchor" and "reload".',
           );

@@ -66,7 +66,7 @@ export default function EditPost() {
       <Box sx={{ textAlign: "center", p: 4 }}>
         <Typography level="h4">Not authorized</Typography>
         <Typography level="body-md" sx={{ mt: 2 }}>
-          You don't have permission to edit this post.
+          You don&apos;t have permission to edit this post.
         </Typography>
       </Box>
     );

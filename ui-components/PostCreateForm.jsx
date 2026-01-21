@@ -28,7 +28,7 @@ export default function PostCreateForm(props) {
     description: "Join us for our next book club meeting!",
     title: "",
     eventUrl: "",
-    epubUrl: "https://ebooks.jpc.io",
+    epubUrl: "https://ereader.jpc.io",
     audiobookUrl: "https://audiobooks.jpc.io",
   };
   const [date, setDate] = React.useState(initialValues.date);
