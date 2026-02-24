@@ -16,6 +16,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "sandbox": "ampx sandbox --profile personal",
+    "generate-outputs": "ampx generate outputs --app-id d35znb8kvcye34 --branch main --profile personal",
     "prepare": "husky install"
   },
   "dependencies": {
